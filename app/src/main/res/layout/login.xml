@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@drawable/bg">
+
+    <EditText
+        android:id="@+id/email"
+        android:textSize="17sp"
+        android:layout_width="280dp"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/email"
+        android:backgroundTint="#fff"
+        android:textCursorDrawable="@null"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:textAlignment="center"
+        android:layout_margin="25dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:textColorHint="#63ffffff"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:textCursorDrawable="@null"
+        android:textSize="17sp"
+        android:drawableStart="@drawable/lock"
+        android:maxLines="1"
+        android:textColor="#fff"
+        android:layout_width="280dp"
+        android:layout_gravity="center"
+        android:scrollHorizontally="true"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:textAlignment="center"
+        android:hint="Password"
+        android:textColorHint="#64ffffff"
+        android:backgroundTint="#fff"
+        android:inputType="textPassword"/>
+
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:elevation="4dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:textColor="#fff"
+        android:background="@drawable/bubble"/>
+
+
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:id="@+id/loading"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Not registered?"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="180dp"/>
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/register"
+        android:textColor="#ffffff"
+        android:elevation="4dp"
+        android:background="@drawable/bubble"/>
+
+
+
+</LinearLayout>

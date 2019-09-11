@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@drawable/bg">
+    <!--<ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/tag"
+        android:layout_margin="20dp"
+        android:visibility="visible"
+        android:layout_gravity="center"
+        android:src="@drawable/tag"/>-->
+    <!-- NAME-->
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#ffffff"
+        android:hint="Name"
+        android:drawableStart="@drawable/name"
+        android:textColor="#fff"
+        android:textCursorDrawable="@null"
+        android:textColorHint="#64ffffff"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        android:textSize="15sp"
+        android:id="@+id/name"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:gravity="center"/>
+    <!-- EMAIL-->
+    <EditText
+        android:layout_width="250dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="15sp"
+        android:textCursorDrawable="@null"
+        android:drawableStart="@drawable/email"
+        android:hint="Email Address"
+        android:textColorHint="#64ffffff"
+        android:id="@+id/email"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:backgroundTint="#fff"
+        android:maxLines="1"
+        android:inputType="textEmailAddress"
+        android:scrollHorizontally="true"/>
+    <!-- CITY-->
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#ffffff"
+        android:hint="@string/city"
+        android:drawableStart="@drawable/name"
+        android:textColor="#fff"
+        android:textCursorDrawable="@null"
+        android:textColorHint="#64ffffff"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        android:textSize="15sp"
+        android:id="@+id/city"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:gravity="center"/>
+    <!-- CONATCT-->
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#ffffff"
+        android:hint="@string/mobile_no"
+        android:drawableStart="@drawable/name"
+        android:textColor="#fff"
+        android:inputType="numberDecimal"
+        android:textCursorDrawable="@null"
+        android:textColorHint="#64ffffff"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        android:textSize="15sp"
+        android:id="@+id/contact"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:gravity="center"/>
+
+    <!--Pincode-->
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#ffffff"
+        android:hint="@string/pincode"
+        android:drawableStart="@drawable/name"
+        android:textColor="#fff"
+        android:textCursorDrawable="@null"
+        android:textColorHint="#64ffffff"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        android:textSize="15sp"
+        android:id="@+id/pincode"
+        android:inputType="numberDecimal"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:gravity="center"/>
+
+    <!-- Password-->
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:layout_margin="20dp"
+        android:id="@+id/password"
+        android:textCursorDrawable="@null"
+        android:textColorHint="#64ffffff"
+        android:inputType="textPassword"
+        android:backgroundTint="#fff"
+        android:textSize="15sp"
+        android:drawableStart="@drawable/lock"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:maxLines="1"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:textColor="#fff"
+        android:background="@drawable/bubble"
+        android:elevation="4dp"
+        android:text="@string/register"
+        android:layout_gravity="center"
+        android:id="@+id/register"/>
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Findr</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="call">Call</string>
+    <string name="comm">Comm</string>
+    <string name="share">Share</string>
+    <string name="add">Add</string>
+    <string name="hello">Hello</string>
+    <string name="email">sarahsolkar123@gmail.com</string>
+    <string name="tag_line">Daane Daane par Likha Naam</string>
+    <string name="nav_drawer_open">Open Nav Drawer</string>
+    <string name="nav_drawer_close">Close Nav Drawer</string>
+    <string name="khiladi">Khiladi</string>
+    <string name="nasha">Nasha</string>
+    <string name="pehla">Pehla</string>
+    <string name="khaale">Khaale</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
+    <string name="tagline">Daane Daane par likha hai,  Khaane waale ka naam</string>
+    <string name="name">Sarah Solkar</string>
+    <string name="Horror">Horror</string>
+    <string name="BochaHila">Bocha Hila</string>
+    <string name="Sarah_Solkar">Sarah Solkar</string>
+    <string name="email_profile">muaaz@gmail.com</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="logout">Logout</string>
+    <string name="food_name">Food name</string>
+    <string name="order">Order</string>
+    <string name="price">price</string>
+    <string name="pincode">Pincode</string>
+    <string name="contact">Contact No.</string>
+    <string name="city">City</string>
+    <string name="mobile_no">Mobile No.</string>
+</resources>

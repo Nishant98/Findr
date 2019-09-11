@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/home"
+            android:icon="@drawable/home"
+            android:title="@string/home"/>
+        <item android:title="@string/profile"
+            android:icon="@drawable/name"
+            android:id="@+id/profile"/>
+        <item android:title="@string/wishlist"
+            android:icon="@drawable/wishlist"
+            android:id="@+id/wishlist"/>
+        <item android:title="Order"
+            android:icon="@drawable/cart"
+            android:id="@+id/order"/>
+
+        <item android:title="@string/logout"
+            android:icon="@drawable/logout"
+            android:id="@+id/logout"/>
+
+    </group>
+    <item android:title="@string/comm"
+
+        android:id="@+id/comm">
+        <menu>
+            <item android:icon="@drawable/share"
+                android:title="@string/share"
+                android:id="@+id/share"/>
+            <item android:title="@string/call"
+                android:icon="@drawable/call"
+                android:id="@+id/call"/>
+            <item android:icon="@drawable/add"
+                android:id="@+id/add"
+                android:title="@string/add"/>
+        </menu>
+    </item>
+
+</menu>
