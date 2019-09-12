@@ -1,15 +1,18 @@
 # Findr
 
 ## Problem Statement
-People often get confused while ordering food online and end up buying the things they had previously ordered.
-Hence, an application which shows user various random food items which they may like and order it.
+When hungry, almost everyone finds it hard to make choices of what one wants to eat.\
+What if somebody could decide and make life easier and delicious? :P\
+Swipe to eat!
+An application which shows user random food items and order accordingly.
 
 ## How it works
-1. User input his details and registers.
-2. He logs in and gets images of various food items.
-3. User can swipe right if he likes the food item or left if he doesn't
-4. The liked food items are displayed in wishlist, from where he can shortlist the items and place it in the cart.
-5. Finally user can order the items from the cart.
+1. User registers and logs in.
+2. Random images of food items.
+3. Swipe right to like the food item otherwise swipe left.
+4. A wishlist is generated depending on the liked items.
+5. A list of food items are dumped into the cart from the wishlist.
+6. Finally, user can order the items from the cart.
 
 ## Technology Stack
 1. Android
