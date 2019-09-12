@@ -208,8 +208,8 @@ def getWishlist():
 				category = rows[i][1]
 				image = rows[i][2]
 				price = rows[i][4]
-
-				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price}
+                rid = rows[i][3]
+				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price, 'rid':rid}
 				t.append(res)
 			print(t)
 			return jsonify(t)
