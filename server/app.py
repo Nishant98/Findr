@@ -97,6 +97,11 @@ def login():
             else:
                 return "0"
 
+@app.route('/logout', methods = ['POST', 'GET'])
+def logout():
+	session.pop('email',None)
+	session.pop('city',None)
+	return "1"
 
 #Route for REGISTER
 
