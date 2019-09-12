@@ -266,10 +266,11 @@ public class HomeFragment extends Fragment {
 //                        Log.d("get url desc ",description);
 
 
-                        array.add(new Data(restaurant_name,category,imgname,price,rid,description));
+                        array.add(new Data(restaurant_name,category,imgname,price,description,rid));
+                        Log.d("array",""+array);
 
 
-                        Log.d("Result", "Result is " + result +" and "+ array);
+                        //Log.d("Result", "Result is " + result +" and "+ array);
                         myAppAdapter = new MyAppAdapter(array, getActivity());
                         flingContainer.setAdapter(myAppAdapter);
 
@@ -331,9 +332,9 @@ public class HomeFragment extends Fragment {
         ConnectionManager.sendData(requestBody, requestQueue, URL, new ConnectionManager.VolleyCallback() {
             @Override
             public void onSuccessResponse(String result) {
-                System.out.print("Bool" + result);
+                //System.out.print("Bool" + result);
                 if (result.equals("1")) {
-                    //String ip= null, restaurant_name = null, category = null, imgname = null, rid = null,description = null;
+//                    String ip= null, restaurant_name = null, category = null, imgname = null, rid = null,description = null;
 //                    try {
 //                        JSONObject jsonObject1 = new JSONObject(result);
 //                        ip = jsonObject1.getString("ip");
