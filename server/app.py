@@ -1,23 +1,20 @@
-from flask import Flask, request ,send_from_directory,jsonify
+from flask import Flask,request,send_from_directory,jsonify,session
 import random
 import socket
 import json
-from list import create_list
 import sqlite3
 import hashlib
 import re
 
 
 ip = "http://192.168.43.158:8080"
-#veg_list,nonveg_list = create_list()
 description = "Lorem ipsum dolor sit amet, proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 app = Flask(__name__, static_url_path='' )
+app.secret_key="session_key"
 
 
-
-#print(veg_list)
 print("//////////////////////")
-#print(nonveg_list)
+
 
 # USER table
 conn = sqlite3.connect('database.db')
@@ -78,6 +75,8 @@ def images(path):
 
 #Route for LOGIN
 
+
+
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
     if request.method == 'POST':
@@ -90,8 +89,11 @@ def login():
             cur.execute("SELECT * from User where email = ? and password = ?", (email, result))
             rows = cur.fetchall();
             if(rows):
-
-                return "1"
+            	city = rows[0][2]
+            	session['email'] = email
+            	session['city'] = city
+            	#session.pop('email',None)
+            	return "1"
             else:
                 return "0"
 
@@ -134,134 +136,149 @@ def register():
 
 @app.route('/addSwipe', methods=['GET','POST'])
 def addSwipe():
-	global ip
-	restaurant = random.randrange(1,7)
-	with sqlite3.connect("database.db") as conn:
-		cur = conn.cursor()
-		cur.execute("select name from Restaurant where rid=?",(restaurant,))
-		 #check whether user is present or not
-		rows = cur.fetchone()
-		restaurant_name = rows[0]
-	with sqlite3.connect("database.db") as conn:
-		cur = conn.cursor()
-		cur.execute("select category,image,price from food where rid=?",(restaurant,))
-		 #check whether user is present or not
-		rows = cur.fetchall();
-		# print(rows[0][0])
-		length = len(rows)
-		#print("yejcbkwjdc",temp)
-	path_parameters = random.randrange(0,length)
-	# path = ip+","+restaurant_name+ "," +rows[path_parameters][0]+ "," +rows[path_parameters][1]+ "," +str(description)+","+rows[path_parameters][2]
-	res = {'ip': ip,'restaurant_name':restaurant_name,'category':rows[path_parameters][0],'imgname':rows[path_parameters][1],'price':rows[path_parameters][2],'description':str(description),'rid':restaurant}
-	print(res)
-	return jsonify(res)
-
+	if 'email' in session:
+		email = session['email']
+		print("session mai hai ",email)
+		global ip
+		restaurant = random.randrange(1,7)
+		with sqlite3.connect("database.db") as conn:
+			cur = conn.cursor()
+			cur.execute("select name from Restaurant where rid=?",(restaurant,))
+			 #check whether user is present or not
+			rows = cur.fetchone()
+			restaurant_name = rows[0]
+		with sqlite3.connect("database.db") as conn:
+			cur = conn.cursor()
+			cur.execute("select category,image,price from food where rid=?",(restaurant,))
+			 #check whether user is present or not
+			rows = cur.fetchall();
+			# print(rows[0][0])
+			length = len(rows)
+			#print("yejcbkwjdc",temp)
+		path_parameters = random.randrange(0,length)
+		# path = ip+","+restaurant_name+ "," +rows[path_parameters][0]+ "," +rows[path_parameters][1]+ "," +str(description)+","+rows[path_parameters][2]
+		res = {'ip': ip,'restaurant_name':restaurant_name,'category':rows[path_parameters][0],'imgname':rows[path_parameters][1],'price':rows[path_parameters][2],'description':str(description),'rid':restaurant}
+		print(res)
+		return jsonify(res)
+	else:
+		#route to redirect to login
+		return "Login toh kar"
 #Route to SWIPE
 
 @app.route('/swipe', methods=['GET','POST'])
 def swipe():
-	global ip
-	content = request.json
-	print(content)
-	restaurant_name = content['restaurant_name']
-	category = content['category']
-	email  = content['email']
-	image = content['image']
-	swipe = content['swipe']
-	rid = content['rid']
-	rid = int(rid)
-
-	if(swipe=="1"):
-		print("swiped right")
-		#add in DB
-		with sqlite3.connect("database.db") as con:
-			cur = con.cursor()
-			cur.execute('INSERT INTO wishlist (email,rid,category,image) values(?,?,?,?)',(email,rid,category,image))
-			con.commit()
-			print("inserted")
-		return "1"
-	else:
-		#code for left swipe
-		return "0"
-	
-@app.route('/getWishlist', methods=['GET','POST'])
-def getWishlist():
-	print("hi")
-	if request.method == 'POST':
+	if 'email' in session:
+		global ip
 		content = request.json
 		print(content)
-		email= content['email']
-		print("email is ",email)
-		conn = sqlite3.connect('database.db')
-		cur = conn.cursor()
-		cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price from wishlist, food, Restaurant where email = ? and ordered = 0 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
-		rows = cur.fetchall()
-		print("hi", rows)
-		t = []
-
-		if(rows==[]):
-			return "nahi mila"
-
-		else:
-			for i in range(0, len(rows)):
-				restaurant_name = rows[i][0]
-				category = rows[i][1]
-				image = rows[i][2]
-				price = rows[i][4]
-                rid = rows[i][3]
-				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price, 'rid':rid}
-				t.append(res)
-			print(t)
-			return jsonify(t)
-
-
-@app.route('/order', methods=['GET','POST'])
-def order():
-	if request.method == 'POST':
-
-		content = request.json
 		restaurant_name = content['restaurant_name']
 		category = content['category']
 		email  = content['email']
 		image = content['image']
+		swipe = content['swipe']
 		rid = content['rid']
+		rid = int(rid)
 
-		with sqlite3.connect("database.db") as con:
-			cur = con.cursor()
-			cur.execute('UPDATE wishlist set ordered=1 where email= ? and rid= ? and category = ? and image = ?',(email, rid, category ,image))
-			con.commit()
-		return "1"
+		if(swipe=="1"):
+			print("swiped right")
+			#add in DB
+			with sqlite3.connect("database.db") as con:
+				cur = con.cursor()
+				cur.execute('INSERT INTO wishlist (email,rid,category,image) values(?,?,?,?)',(email,rid,category,image))
+				con.commit()
+				print("inserted")
+			return "1"
+		else:
+			#code for left swipe
+			return "0"
+	else:
+		return "Login toh kar"
 
+
+@app.route('/getWishlist', methods=['GET','POST'])
+def getWishlist():
+	if 'email' in session:
+		print("hi")
+		if request.method == 'POST':
+			content = request.json
+			print(content)
+			email= content['email']
+			print("email is ",email)
+			conn = sqlite3.connect('database.db')
+			cur = conn.cursor()
+			cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price from wishlist, food, Restaurant where email = ? and ordered = 0 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
+			rows = cur.fetchall()
+			print("hi", rows)
+			t = []
+
+			if(rows==[]):
+				return "nahi mila"
+
+			else:
+				for i in range(0, len(rows)):
+					restaurant_name = rows[i][0]
+					category = rows[i][1]
+					image = rows[i][2]
+					price = rows[i][4]
+
+					res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price}
+					t.append(res)
+				print(t)
+				return jsonify(t)
+	else:
+		return "Login toh kar"
+
+@app.route('/order', methods=['GET','POST'])
+def order():
+	if 'email' in session:
+		if request.method == 'POST':
+
+			content = request.json
+			restaurant_name = content['restaurant_name']
+			category = content['category']
+			email  = content['email']
+			image = content['image']
+			rid = content['rid']
+
+			with sqlite3.connect("database.db") as con:
+				cur = con.cursor()
+				cur.execute('UPDATE wishlist set ordered=1 where email= ? and rid= ? and category = ? and image = ?',(email, rid, category ,image))
+				con.commit()
+			return "1"
+	else:
+		return "Login toh kar"
 
 @app.route('/getOrdered', methods=['GET','POST'])
 def getOrdered():
-	print("hi")
-	if request.method == 'POST':
-		content = request.json
-		print(content)
-		email= content['email']
-		print("email is ",email)
-		conn = sqlite3.connect('database.db')
-		cur = conn.cursor()
-		cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price from wishlist, food, Restaurant where email = ? and ordered = 1 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
-		rows = cur.fetchall()
-		print("hi", rows)
-		t = []
+	if 'email' in session:
+		print("hi")
+		if request.method == 'POST':
+			content = request.json
+			print(content)
+			email= content['email']
+			print("email is ",email)
+			conn = sqlite3.connect('database.db')
+			cur = conn.cursor()
+			cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price from wishlist, food, Restaurant where email = ? and ordered = 1 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
+			rows = cur.fetchall()
+			print("hi", rows)
+			t = []
 
-		if(rows==[]):
-			return "nahi mila"
+			if(rows==[]):
+				return "nahi mila"
 
-		else:
-			for i in range(0, len(rows)):
-				restaurant_name = rows[i][0]
-				category = rows[i][1]
-				image = rows[i][2]
-				price = rows[i][4]
-				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price}
-				t.append(res)
-			print(t)
-			return jsonify(t)
-
+			else:
+				for i in range(0, len(rows)):
+					restaurant_name = rows[i][0]
+					category = rows[i][1]
+					image = rows[i][2]
+					price = rows[i][4]
+					res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price}
+					t.append(res)
+				print(t)
+				return jsonify(t)
+	else:
+		return "Login toh kar"
 
 #Run server on local IP and port 8080
 if __name__ == '__main__':
