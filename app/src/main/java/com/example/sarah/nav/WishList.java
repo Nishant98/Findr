@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class WishList extends AppCompatActivity {
     FoodAdapter foodAdapter;
-    ArrayList<ModelFood> foodList;
+    ArrayList<Data> foodList;
     String email;
     SharedPreferences pref;
     RecyclerView recyclerView;
@@ -56,6 +56,7 @@ public class WishList extends AppCompatActivity {
 
         getData();
     }
+    
 ///Adding back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -72,7 +73,7 @@ public class WishList extends AppCompatActivity {
         getIp ip = new getIp();
         String del = ip.getIp();
         RequestQueue requestQueue = Volley.newRequestQueue(WishList.this);
-        String URL = ""+del+":8080/getLoc";
+        String URL = ""+del+":8080/getWishlist";
 
         JSONObject jsonObject = new JSONObject();
         try {
