@@ -1,4 +1,4 @@
-from flask import Flask,request,send_from_directory,jsonify,session
+from flask import Flask,request,send_from_directory,jsonify,session,url_for,redirect
 import random
 import socket
 import json
@@ -92,7 +92,7 @@ def login():
             	city = rows[0][2]
             	session['email'] = email
             	session['city'] = city
-            	#session.pop('email',None)
+            	session['seen'] = []
             	return "1"
             else:
                 return "0"
@@ -101,6 +101,7 @@ def login():
 def logout():
 	session.pop('email',None)
 	session.pop('city',None)
+	session.pop('seen',None)
 	return "1"
 
 #Route for REGISTER
@@ -161,10 +162,19 @@ def addSwipe():
 			length = len(rows)
 			#print("yejcbkwjdc",temp)
 		path_parameters = random.randrange(0,length)
+		temp = str(restaurant)+","+rows[path_parameters][0]+","+rows[path_parameters][1]
+		#temp = "4,clam chowder3,4233.jpg"
+		print(temp)
+		if(temp not in session['seen']):
 		# path = ip+","+restaurant_name+ "," +rows[path_parameters][0]+ "," +rows[path_parameters][1]+ "," +str(description)+","+rows[path_parameters][2]
-		res = {'ip': ip,'restaurant_name':restaurant_name,'category':rows[path_parameters][0],'imgname':rows[path_parameters][1],'price':rows[path_parameters][2],'description':str(description),'rid':restaurant}
-		print(res)
-		return jsonify(res)
+			res = {'ip': ip,'restaurant_name':restaurant_name,'category':rows[path_parameters][0],'imgname':rows[path_parameters][1],'price':rows[path_parameters][2],'description':str(description),'rid':restaurant}
+			print(res)
+			print("repeat nahi hua")
+			return jsonify(res)
+		else:
+			print("repeat hua")
+			return redirect(url_for('addSwipe'))
+
 	else:
 		#route to redirect to login
 		return "Login toh kar"
@@ -183,7 +193,7 @@ def swipe():
 		swipe = content['swipe']
 		rid = content['rid']
 		rid = int(rid)
-
+		temp = str(rid)+","+category+","+image
 		if(swipe=="1"):
 			print("swiped right")
 			#add in DB
@@ -192,9 +202,18 @@ def swipe():
 				cur.execute('INSERT INTO wishlist (email,rid,category,image) values(?,?,?,?)',(email,rid,category,image))
 				con.commit()
 				print("inserted")
+			print(session)
+			print(session['seen'])
+			session['seen'].append(temp)
+			session.modified = True
+			print(session['seen'])
+				
 			return "1"
 		else:
 			#code for left swipe
+			session['seen'].append(temp)
+			session.modified = True
+			print(session['seen'])
 			return "0"
 	else:
 		return "Login toh kar"
