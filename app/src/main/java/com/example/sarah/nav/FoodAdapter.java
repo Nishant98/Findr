@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<ModelFood> Mlist;
+    private ArrayList<Data> Mlist;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener{
@@ -30,7 +30,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;
     }
-    public FoodAdapter(Context mContext, ArrayList<ModelFood> mlist) {
+    public FoodAdapter(Context mContext, ArrayList<Data> mlist) {
         this.mContext = mContext;
         Mlist = mlist;
         Log.d("mList", ""+Mlist);
@@ -48,7 +48,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ModelFood foodItem  =  Mlist.get(position);
+        Data foodItem  =  Mlist.get(position);
         Log.d("tag", "the food item is    "+foodItem);
         ImageView image = holder.food_image;
         TextView name, price;
@@ -56,14 +56,23 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         name = holder.food_name;
         price = holder.food_price;
 
-        String index1, index2, del;
+        String restaurant_name, category, del;
         getIp ip = new getIp();
         del = ip.getIp();
-        index1 = foodItem.getIndex1();
-        Log.d("index 1 is",""+index1);
-        String loc = ""+del+"/Findr"+index1;
-        loc  = loc.replace('\\', '/');
+        
+        restaurant_name = foodItem.getRestaurant_name();
+        Log.d("restaurant name is",""+restaurant_name);
+        
+        category = foodItem.getCategory();
+        Log.d("category is",""+category);
+        
+        imgname = foodItem.getImgname();
+        Log.d("image name is",""+imgname);
 
+
+        String loc = ""+del+"/Findr/"+restaurant_name"/"+category+"/"imgname;
+        loc  = loc.replace('\\', '/');
+    
         Log.d("loc",loc);
         //Glide.with(mContext).load(""+loc).error(R.drawable.shopping_cart).into(image);
         //Glide.with(mContext).load(R.drawable.ic_launcher_background).error(R.drawable.shopping_cart).into(image);
@@ -82,9 +91,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
             }
         });
-        name.setText(foodItem.getIndex2());
+        name.setText(category);
         price.setText("₹"+foodItem.getPrice());
-
     }
 
 
