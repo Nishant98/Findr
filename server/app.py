@@ -146,34 +146,47 @@ def addSwipe():
 		email = session['email']
 		print("session mai hai ",email)
 		global ip
-		restaurant = random.randrange(1,7)
 		with sqlite3.connect("database.db") as conn:
 			cur = conn.cursor()
-			cur.execute("select name from Restaurant where rid=?",(restaurant,))
-			 #check whether user is present or not
-			rows = cur.fetchone()
-			restaurant_name = rows[0]
-		with sqlite3.connect("database.db") as conn:
-			cur = conn.cursor()
-			cur.execute("select category,image,price from food where rid=?",(restaurant,))
-			 #check whether user is present or not
-			rows = cur.fetchall();
-			# print(rows[0][0])
-			length = len(rows)
-			#print("yejcbkwjdc",temp)
-		path_parameters = random.randrange(0,length)
-		temp = str(restaurant)+","+rows[path_parameters][0]+","+rows[path_parameters][1]
-		#temp = "4,clam chowder3,4233.jpg"
-		print(temp)
-		if(temp not in session['seen']):
-		# path = ip+","+restaurant_name+ "," +rows[path_parameters][0]+ "," +rows[path_parameters][1]+ "," +str(description)+","+rows[path_parameters][2]
-			res = {'ip': ip,'restaurant_name':restaurant_name,'category':rows[path_parameters][0],'imgname':rows[path_parameters][1],'price':rows[path_parameters][2],'description':str(description),'rid':restaurant}
-			print(res)
-			print("repeat nahi hua")
-			return jsonify(res)
-		else:
-			print("repeat hua")
-			return redirect(url_for('addSwipe'))
+			city = session['city']
+			cur.execute("select * from Restaurant where city=?",(city,))
+			rows = cur.fetchall() 
+			if(rows==[]):
+				return "Tere City mai Restaurant nahi hai"
+			else:
+				restaurant = random.randrange(1,7)
+				with sqlite3.connect("database.db") as conn:
+					cur = conn.cursor()
+					city = session['city']
+					cur.execute("select name from Restaurant where rid=? and city=?",(restaurant,city))
+					 #check whether user is present or not
+					rows = cur.fetchone()
+					if(rows==None):
+						print("wrong city mila")
+						return redirect(url_for('addSwipe'))
+					print(rows)
+					restaurant_name = rows[0]
+				with sqlite3.connect("database.db") as conn:
+					cur = conn.cursor()
+					cur.execute("select category,image,price from food where rid=?",(restaurant,))
+					 #check whether user is present or not
+					rows = cur.fetchall();
+					# print(rows[0][0])
+					length = len(rows)
+					#print("yejcbkwjdc",temp)
+				path_parameters = random.randrange(0,length)
+				temp = str(restaurant)+","+rows[path_parameters][0]+","+rows[path_parameters][1]
+				#temp = "4,clam chowder3,4233.jpg"
+				print(temp)
+				if(temp not in session['seen']):
+				# path = ip+","+restaurant_name+ "," +rows[path_parameters][0]+ "," +rows[path_parameters][1]+ "," +str(description)+","+rows[path_parameters][2]
+					res = {'ip': ip,'restaurant_name':restaurant_name,'category':rows[path_parameters][0],'imgname':rows[path_parameters][1],'price':rows[path_parameters][2],'description':str(description),'rid':restaurant}
+					print(res)
+					print("repeat nahi hua")
+					return jsonify(res)
+				else:
+					print("repeat hua")
+					return redirect(url_for('addSwipe'))
 
 	else:
 		#route to redirect to login
