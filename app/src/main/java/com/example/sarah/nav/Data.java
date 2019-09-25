@@ -22,13 +22,8 @@ public class Data {
         return restaurant_name;
     }
     public String getRid(){ return rid; }
-
     public String getDescription() { return description; }
-
     public String getCategory(){return category;}
-
     public String getImgname() { return imgname; }
     public String getPrice() { return price; }
-
-
 }
