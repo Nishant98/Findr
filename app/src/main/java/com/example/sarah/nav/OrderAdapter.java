@@ -19,6 +19,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     private Context mContext;
     private ArrayList<ModelFood> Mlist_order;
+    private OrderAdapter.OnItemClickListener mListener;
+
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+
+    }
+
+    public void setOnItemClickListener(OrderAdapter.OnItemClickListener listener){
+        mListener = listener;
+    }
 
     public OrderAdapter(Context mContext, ArrayList<ModelFood> mlistOrder) {
         this.mContext = mContext;
@@ -32,8 +43,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflator = LayoutInflater.from(mContext);
         View view =  layoutInflator.inflate(R.layout.rv_order, parent ,false);
-        ViewHolder viewHolder = new ViewHolder(view);
-
+        ViewHolder viewHolder = new ViewHolder(view, mListener);
         return viewHolder;
     }
 
@@ -41,18 +51,36 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ModelFood foodItem  =  Mlist_order.get(position);
         Log.d("tag", "jholu    "+foodItem);
+
         ImageView image = holder.food_image;
-        TextView name, price;
+        TextView name, price, order_rest_name;
+
         name = holder.food_name;
         price = holder.food_price;
-        String index1, index2;
-        index1 = foodItem.getIndex1();
+        order_rest_name = holder.order_rest_name;
+
+        String restaurant_name, category, imgname,rid;
+
         getIp ip = new getIp();
         String del = ip.getIp();
-        String loc = ""+del+"/Findr"+index1;
-        Log.d("hi leeaa", "fooditem.getimage    "+loc);
+
+        rid = foodItem.getRid();
+        restaurant_name = foodItem.getRestaurant_name();
+        Log.d("restaurant name is",""+restaurant_name);
+
+        category = foodItem.getCategory();
+        Log.d("category is",""+category);
+
+        imgname = foodItem.getImgname();
+        Log.d("image name is",""+imgname);
+
+        String loc = ""+del+":8080/images/"+rid+"/"+category+"/"+imgname;
+        loc  = loc.replace('\\', '/');
+        Log.d("loc order",loc);
+
         Picasso.get().load(""+loc).centerCrop().fit().error(R.drawable.ic_launcher_background).into(image);
-        name.setText(foodItem.getIndex2());
+        name.setText(category);
+        order_rest_name.setText(restaurant_name);
         price.setText("₹"+foodItem.getPrice());
 
     }
@@ -66,14 +94,30 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView food_image;
-        TextView food_name, food_price;
-        Button food_order;
-        public ViewHolder(@NonNull View itemView) {
+        TextView food_name, food_price,order_rest_name;
+        Button food_order,trash;
+        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView) ;
             food_image = itemView.findViewById(R.id.food_order_image);
             food_name = itemView.findViewById(R.id.food_order_name);
             food_price = itemView.findViewById(R.id.food_order_price);
             food_order=itemView.findViewById(R.id.food_order);
+            order_rest_name = itemView.findViewById(R.id.order_rest_name);
+            trash = itemView.findViewById(R.id.trash);
+
+            trash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("On cart click", "Trash Clicked");
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+
+            });
         }
     }
 }
