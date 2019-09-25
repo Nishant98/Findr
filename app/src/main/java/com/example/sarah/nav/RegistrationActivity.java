@@ -28,6 +28,9 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         email=findViewById(R.id.email);
         loading=findViewById(R.id.loading);
         password=findViewById(R.id.password);
@@ -67,6 +70,13 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onSupportNavigateUp(){
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
+    }
 
     private void Register(String mEmail, String mPassword, String mName, String mCity, String mPincode, String mContact) {
         getIp ip = new getIp();
@@ -96,23 +106,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Log.d("str_register","strREG is"+requestBody);
 
         ConnectionManager.sendData(requestBody, requestQueue, URL, new ConnectionManager.VolleyCallback(){
-            @Override
-            /*
-            public void onSuccessResponse(String result) {
-                Log.d("RESULT","RESULTS "+result);
-                if (result.equals("1")) {
-                    Toast.makeText(RegistrationActivity.this, result, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                }
-                //System.out.print("Bool" + result);
-                 else {
-                    Toast.makeText(RegistrationActivity.this, "Oops! Try Again.", Toast.LENGTH_SHORT).show();
-                }
-            }
-            */
-
-
+        
             public void onSuccessResponse(String result) {
                 Log.d("RESULT","RESULTS "+result);
                 if (result.equals("1")) {
