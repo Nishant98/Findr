@@ -7,12 +7,10 @@ import sqlite3
 import hashlib
 import re
 
-ip = "http://192.168.43.158:8080"
-#veg_list,nonveg_list = create_list()
+ip = "http://192.168.0.103:8080"
 description = "Lorem ipsum dolor sit amet, proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 app = Flask(__name__, static_url_path='' )
-#print(veg_list)
-#print(nonveg_list)
+
 
 # USER table
 conn = sqlite3.connect('database.db')
@@ -69,6 +67,29 @@ def images(path):
 	return send_from_directory('images',path)
 
 
+@app.route('/delOrdered',methods = ['POST','GET'])
+def delOrdered():
+	print("del")
+	if request.method == 'POST':
+		print("inside del delOrdered")
+		content = request.json
+		email = content['email']
+		restaurant_name = content['restaurant_name']
+		category = content['category']
+		rid = content['rid']
+		image_name = content['image']
+		print(email)
+		print(restaurant_name)
+		print(category)
+		print(rid)
+		print(image_name)
+
+		with sqlite3.connect("database.db") as conn:
+			cur = conn.cursor()
+			cur.execute("DELETE from wishlist where email = ? and ordered=1 and image = ?",(email,image_name))
+			conn.commit()
+		return "Removed"
+
 
 
 #Route for LOGIN
@@ -76,6 +97,7 @@ def images(path):
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
 	if request.method == 'POST':
+		#print("hakjbcska")
 		content = request.json
 		email = content['email']
 		password = content['password']
@@ -168,8 +190,6 @@ def swipe():
 	rid = content['rid']
 	rid = int(rid)
 	swipe = content['swipe']
-
-
 	if(swipe=="1"):
 		print("swiped right")
 		#add in DB
