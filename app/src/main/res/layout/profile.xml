@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/activity_profile"
-    android:background="#0e0e2b">
+    android:background="#19191a">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,8 +24,9 @@
                 android:id="@+id/profile_image"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:src="@drawable/email"
-                android:layout_margin="20dp"
+                android:src="@drawable/name"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="135dp"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"/>
         </RelativeLayout>
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,36 +49,34 @@
                 android:textStyle="italic"
                 android:textColor="#fff"
                android:textSize="25sp"
-                android:text="@string/Sarah_Solkar" />
+                android:text="@string/Sarah_Solkar" />-->
             <TextView
                 android:id="@+id/email"
-                android:layout_marginTop="0dp"
                 android:textSize="20sp"
+                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:padding="2dp"
                 android:textColor="#fff"
                 android:elevation="4dp"
-                android:text="@string/email_profile"
+                android:text=""
                 android:textAlignment="center"
                 android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/bio"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="200dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:padding="2dp"
+                android:padding="4dp"
+                android:layout_gravity="bottom"
+                android:layout_alignParentBottom="true"
                 android:textSize="20sp"
                 android:elevation="4dp"
                 android:textAlignment="center"
-                android:text="@string/BochaHila"
+                android:text="@string/bablipat"
                 android:textColor="#fff"/>
-
-
-
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
