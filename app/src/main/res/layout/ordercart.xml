@@ -9,6 +9,43 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
         android:id="@+id/rvorder"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#2b2f87">
+
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="170dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="9dp"
+        android:background="@drawable/capsule"
+        android:gravity="center"
+        android:id="@+id/price"
+        android:text="Price"
+        android:textColor="#fff"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/food_order"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/capsule"
+        android:gravity="center"
+        android:text="@string/order"
+        android:textColor="#fff"
+        android:textStyle="bold" />
+    </RelativeLayout>
 
 </RelativeLayout>
