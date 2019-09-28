@@ -18,12 +18,10 @@ public class ConnectionManager {
 
     public interface VolleyCallback {
         void onSuccessResponse(String result);
-
         void onErrorResponse(VolleyError error);
     }
 
     public static void sendData(final String requestBody, RequestQueue requestQueue, String URL, final VolleyCallback volleyCallback) {
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -52,7 +50,6 @@ public class ConnectionManager {
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
             }
-
             @Override
             public byte[] getBody() throws AuthFailureError {
                 try {
@@ -62,8 +59,6 @@ public class ConnectionManager {
                 }
             }
         };
-
-
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
