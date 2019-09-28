@@ -30,34 +30,26 @@ import java.util.Map;
 @SuppressLint("Registered")
 public class LoginActivity extends AppCompatActivity {
     Button btnLogin, btnRegister;
-
     EditText email,password,name;
     ProgressBar loading;
-    //final String URL="http://192.168.0.103:8080/login";
-
-    //for shared preference
-    private SharedPreferences mPref;
-    private static final String PREF_NAME="email";
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        //for shared preference
-        mPref=getSharedPreferences(PREF_NAME,MODE_PRIVATE);
 
         btnLogin = findViewById(R.id.loginButton);
         btnRegister = findViewById(R.id.registerButton);
         email=findViewById(R.id.email);
         loading=findViewById(R.id.loading);
         password=findViewById(R.id.password);
-
-
-        //for shared preference
-        String storedEmail = mPref.getString("EMAIL","");
-        email.setText(storedEmail);
-
+        sessionManager = new SessionManager(getApplicationContext());
+        if (sessionManager.isLoggin()){
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+        }
 
         //LOGIN BUTTON LOGIC
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -67,11 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                 String mPassword=password.getText().toString().trim();
 
                 if (!mEmail.isEmpty() || !mPassword.isEmpty()) {
-                    //shared pref
-                    SharedPreferences.Editor editor=mPref.edit();
-                    editor.putString("EMAIL",mEmail);
-                    editor.apply();
-
                     Login(mEmail,mPassword);
                     //shared pref
                     email.setText("");
@@ -124,11 +111,12 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("RESULT","RESULTS "+result);
                         if (result.equals("1")) {
                             loading.setVisibility(View.VISIBLE);
-                             Toast.makeText(LoginActivity.this, "Hello "+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Hello "+email, Toast.LENGTH_SHORT).show();
+
+                            sessionManager.createSession(email);
+                            System.out.println("Email"+email);
+
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("params", email);
-                            intent.putExtras(bundle);
                             startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Ooops! Try Again.", Toast.LENGTH_SHORT).show();
@@ -142,78 +130,5 @@ public class LoginActivity extends AppCompatActivity {
                 toast.show();
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        loading.setVisibility(View.VISIBLE);
-        btnLogin.setVisibility(View.GONE);
-
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, URL_LOGIN,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            String success =jsonObject.getString("success");
-                            JSONArray jsonArray=jsonObject.getJSONArray("Login");
-                            if(success.equals('1')){
-                                for(int i=0;i<jsonArray.length();i++){
-                                    JSONObject object=jsonArray.getJSONObject(i);
-                                    String name=object.getString("name").trim();
-                                    String email=object.getString("email").trim();
-                                    Toast.makeText(LoginActivity.this,"Successful Login"+name+"",Toast.LENGTH_SHORT).show();
-                                    loading.setVisibility(View.GONE);
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            loading.setVisibility(View.GONE);
-                            Toast.makeText(LoginActivity.this,"Hagg diya"+e.toString(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        loading.setVisibility(View.GONE);
-                        Toast.makeText(LoginActivity.this,"Successful Login"+error.toString(),Toast.LENGTH_SHORT).show();
-
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String>params=new HashMap<>();
-                params.put("email",email);
-                params.put("password",password);
-
-                return params;
-            }
-        };
-        RequestQueue requestQueue=Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
-    }
-    */
 }}
 
