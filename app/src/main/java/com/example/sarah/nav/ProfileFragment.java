@@ -12,18 +12,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ProfileFragment extends Fragment {
+import java.util.HashMap;
 
-    Button btnLogin, btnRegister;
-    TextView name;
+public class ProfileFragment extends Fragment {
+    TextView name,email;
+    String email_session="";
+    SessionManager sessionManager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.profile, container, false);
 
-        name = view.findViewById(R.id.name);
-        name.setText("Sarah");
+        sessionManager = new SessionManager(getActivity().getApplicationContext());
+        sessionManager.checkLogin();
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        email_session = user.get(sessionManager.EMAIL);
+
+//        name = view.findViewById(R.id.name);
+//        name.setText("Sarah");
+
+        email = view.findViewById(R.id.email);
+        email.setText(email_session);
 
 
         return view;
@@ -47,4 +57,3 @@ public class ProfileFragment extends Fragment {
 //                startActivity(intent);
 //            }
 //        });
-
