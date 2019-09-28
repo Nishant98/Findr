@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardElevation="20dp">
-
-
+    app:cardElevation="25dp">
 
     <LinearLayout
         android:padding="10dp"
@@ -19,7 +17,7 @@
         <ImageView
             android:id="@+id/food_order_image"
             android:layout_width="128dp"
-            android:layout_height="128dp"
+            android:layout_height="157dp"
             android:scaleType="centerCrop"/>
 
         <RelativeLayout
@@ -28,42 +26,53 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/order_rest_name"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="10dp"
+                android:text="@string/rest_name"
+                android:textColor="#000"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/food_order_name"
                 android:layout_width="192dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="15dp"
-                android:textSize="17sp"
-                android:paddingEnd="70dp"
+                android:layout_marginTop="50dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="10dp"
                 android:text="@string/food_name"
-                android:textStyle="bold" />
+                android:textColor="#000"
+                android:textSize="17sp"
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/food_order_price"
                 android:layout_width="70dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="75dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="125dp"
                 android:background="@drawable/capsule"
                 android:gravity="center"
                 android:text="@string/price"
                 android:textColor="#fff"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:textStyle="italic" />
 
             <Button
-                android:id="@+id/food_order"
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="95dp"
-                android:layout_marginTop="75dp"
-                android:background="@drawable/capsule"
+                android:id="@+id/trash"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="115dp"
+                android:layout_marginTop="115dp"
+                android:background="@drawable/trash"
                 android:gravity="center"
-                android:text="@string/order"
-                android:textColor="#fff" />
-
-
+                android:textColor="#fff"
+                android:textStyle="bold" />
 
         </RelativeLayout>
-
     </LinearLayout>
-
 </android.support.v7.widget.CardView>
