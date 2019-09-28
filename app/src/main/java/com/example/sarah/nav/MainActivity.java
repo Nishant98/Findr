@@ -18,22 +18,28 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    String email;
+    String email = "";
+    SessionManager sessionManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Get the bundle
-        Bundle bundle = getIntent().getExtras();
-        email=bundle.getString("params");
-        Log.d("prams",email);
+
         //sets the action bar as this toolbar
         Toolbar t = findViewById(R.id.toolbar);
         setSupportActionBar(t);
+
+        sessionManager = new SessionManager(getApplicationContext());
+        sessionManager.checkLogin();
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        email = user.get(sessionManager.EMAIL);
+
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView=findViewById(R.id.nav_view);
@@ -60,24 +66,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.wishlist:
                 Intent wishlist=new Intent(MainActivity.this, WishList.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("params", email);
-                wishlist.putExtras(bundle);
                 startActivity(wishlist);
                 finish();
                 break;
             case R.id.order:
                 Intent order=new Intent(MainActivity.this, OrderCart.class);
-                Bundle bundle_order = new Bundle();
-                bundle_order.putString("params", email);
-                order.putExtras(bundle_order);
                 startActivity(order);
                 finish();
                 break;
             case R.id.logout:
-                Intent logout=new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(logout);
-                finish();
+                sessionManager.logout();
                 break;
 
             case R.id.call:
