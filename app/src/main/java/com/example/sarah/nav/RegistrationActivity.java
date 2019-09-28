@@ -28,6 +28,9 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         email=findViewById(R.id.email);
         loading=findViewById(R.id.loading);
         password=findViewById(R.id.password);
@@ -66,6 +69,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public boolean onSupportNavigateUp(){
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
     }
 
     private void Register(String mEmail, String mPassword, String mName, String mCity, String mPincode, String mContact) {
