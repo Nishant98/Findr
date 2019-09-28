@@ -24,7 +24,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     public interface OnItemClickListener{
     void onItemClick(int position);
-
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -41,7 +40,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflator = LayoutInflater.from(mContext);
-       View view =  layoutInflator.inflate(R.layout.rv_food_items, parent ,false);
+        View view =  layoutInflator.inflate(R.layout.rv_food_items, parent ,false);
         ViewHolder viewHolder = new ViewHolder(view, mListener);
         return viewHolder;
     }
@@ -49,37 +48,31 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Data foodItem  =  Mlist.get(position);
-        Log.d("tag", "the food item is    "+foodItem);
         ImageView image = holder.food_image;
-        TextView name, price;
 
+        TextView name, price_order,rest_order;
         name = holder.food_name;
-        price = holder.food_price;
+        rest_order = holder.rest_name;
+        price_order = holder.food_price;
 
-        String restaurant_name, category, del;
+        String restaurant_name, category, del,imgname,rid;
         getIp ip = new getIp();
         del = ip.getIp();
         
         restaurant_name = foodItem.getRestaurant_name();
-        Log.d("restaurant name is",""+restaurant_name);
-        
         category = foodItem.getCategory();
-        Log.d("category is",""+category);
-        
+        rid = foodItem.getRid();
         imgname = foodItem.getImgname();
-        Log.d("image name is",""+imgname);
 
+        //Log.d("restaurant name is",""+restaurant_name);
+        //Log.d("category is",""+category);
+        //Log.d("image name is",""+imgname);
 
-        String loc = ""+del+"/Findr/"+restaurant_name"/"+category+"/"imgname;
-        loc  = loc.replace('\\', '/');
-    
-        Log.d("loc",loc);
-        //Glide.with(mContext).load(""+loc).error(R.drawable.shopping_cart).into(image);
-        //Glide.with(mContext).load(R.drawable.ic_launcher_background).error(R.drawable.shopping_cart).into(image);
+        String loc = ""+del+":8080/images/"+rid+"/"+category+"/"+imgname;
+        //loc  = loc.replace('\\', '/');
+        //Log.d("loc",loc);
 
         Picasso.get().load(""+loc).centerCrop().fit().error(R.drawable.ic_launcher_background).into(image, new Callback() {
-
-        //Picasso.get().load("http://cdn.journaldev.com/wp-content/uploads/2016/11/android-image-picker-project-structure.png").centerCrop().fit().error(R.drawable.ic_launcher_background).into(image, new Callback() {
             @Override
             public void onSuccess() {
                 Log.d("success","LOADED");
@@ -88,24 +81,24 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
             @Override
             public void onError(Exception e) {
                 Log.d("error",""+e);
-
             }
         });
+
+        rest_order.setText(restaurant_name);
         name.setText(category);
-        price.setText("₹"+foodItem.getPrice());
+        price_order.setText("₹"+foodItem.getPrice());
     }
 
 
     @Override
     public int getItemCount() {
         return Mlist.size();
-
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView food_image;
-        TextView food_name, food_price;
+        TextView food_name, food_price, rest_name;
         Button food_order;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -114,6 +107,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
             food_name = itemView.findViewById(R.id.food_name);
             food_price = itemView.findViewById(R.id.food_price);
             food_order =  itemView.findViewById(R.id.food_order);
+            rest_name = itemView.findViewById(R.id.rest_name);
 
             food_order.setOnClickListener(new View.OnClickListener() {
                 @Override
