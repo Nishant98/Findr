@@ -53,7 +53,10 @@
             <TextView
                 android:id="@+id/email"
                 android:textSize="20sp"
-                android:layout_margin="20dp"
+                android:layout_marginBottom="240dp"
+                android:layout_marginTop="20sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
@@ -66,11 +69,11 @@
 
             <TextView
                 android:id="@+id/bio"
-                android:layout_marginTop="200dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
-                android:layout_gravity="bottom"
+                android:layout_marginBottom="0dp"
+                android:layout_gravity="center"
                 android:layout_alignParentBottom="true"
                 android:textSize="20sp"
                 android:elevation="4dp"
