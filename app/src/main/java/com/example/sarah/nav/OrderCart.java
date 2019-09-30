@@ -237,9 +237,11 @@ import java.util.HashMap;
 
 import static com.example.sarah.nav.AppNotification.CHANNEL_1_ID;
 
-public class OrderCart extends AppCompatActivity {
+public class OrderCart extends AppCompatActivity implements ExampleDialog.ExampleDialogListener{
     //OrderAdapter orderAdapter;
-    private NotificationManagerCompat notificationManager;
+
+    //for notifications
+    //private NotificationManagerCompat notificationManager;
 
 
     ArrayList<ModelFood> foodList;
@@ -258,7 +260,8 @@ public class OrderCart extends AppCompatActivity {
         foodList = new ArrayList<>();
         recyclerView = findViewById(R.id.rvorder);
 
-        notificationManager = NotificationManagerCompat.from(this);
+        //for notification
+        //notificationManager = NotificationManagerCompat.from(this);
 
 
         assert getSupportActionBar() != null;
@@ -281,26 +284,33 @@ public class OrderCart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"Order daba",Toast.LENGTH_SHORT).show();
-                sendOnChannel1();
+                openDialog();
+                //sendOnChannel1();
             }
         });
 
         getData();
     }
-    public void sendOnChannel1() {
-        String title = "Findr";
-        String message = "Order Placed";
-        Log.d("enter notif",""+title+" "+message);
 
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.notifications)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .build();
-        notificationManager.notify(1, notification);
+    public void openDialog() {
+        ExampleDialog exampleDialog = new ExampleDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
     }
+    //For Notification
+//    public void sendOnChannel1() {
+//        String title = "Findr";
+//        String message = "Order Placed";
+//        Log.d("enter notif",""+title+" "+message);
+//
+//        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+//                .setSmallIcon(R.drawable.notifications)
+//                .setContentTitle(title)
+//                .setContentText(message)
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                .build();
+//        notificationManager.notify(1, notification);
+//    }
     @Override
     public boolean onSupportNavigateUp(){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -437,6 +447,11 @@ public class OrderCart extends AppCompatActivity {
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void applyTexts(String username, String password) {
+        Toast.makeText(this, "apply texts", Toast.LENGTH_SHORT).show();
     }
 }
 
