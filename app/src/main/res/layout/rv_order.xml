@@ -64,10 +64,10 @@
 
             <Button
                 android:id="@+id/trash"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="115dp"
-                android:layout_marginTop="115dp"
+                android:layout_width="32dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="123dp"
                 android:background="@drawable/trash"
                 android:gravity="center"
                 android:textColor="#fff"
