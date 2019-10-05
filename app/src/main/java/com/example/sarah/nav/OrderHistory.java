@@ -1,13 +1,11 @@
 package com.example.sarah.nav;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -24,12 +22,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class WishList extends AppCompatActivity {
-    FoodAdapter foodAdapter;
+public class OrderHistory extends AppCompatActivity {
     ArrayList<Data> foodList;
     String email="";
     SessionManager sessionManager;
     RecyclerView recyclerView;
+
     //shimmer
     ProgressBar loading;
     ShimmerFrameLayout mShimmerViewContainer;
@@ -39,7 +37,8 @@ public class WishList extends AppCompatActivity {
         foodList = new ArrayList<>();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wishlist);
+        setContentView(R.layout.history);
+
         foodList = new ArrayList<>();
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -50,12 +49,12 @@ public class WishList extends AppCompatActivity {
         email = user.get(sessionManager.EMAIL);
         Log.d("email",email);
 
-        recyclerView = findViewById(R.id.rv);
+        recyclerView = findViewById(R.id.review);
         //loading=findViewById(R.id.loading);
 
 
         //shimmer
-        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainer = findViewById(R.id.shimmer_view_container_history);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.LayoutManager rvlayoutmanager = linearLayoutManager;
@@ -76,7 +75,7 @@ public class WishList extends AppCompatActivity {
         super.onPause();
         mShimmerViewContainer.stopShimmer();
     }
-//end shimmer
+    //end shimmer
     @Override
     public boolean onSupportNavigateUp(){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -91,8 +90,8 @@ public class WishList extends AppCompatActivity {
         getIp ip = new getIp();
         String del = ip.getIp();
 
-        RequestQueue requestQueue = Volley.newRequestQueue(WishList.this);
-        String URL = ""+del+":8080/getWishlist";
+        RequestQueue requestQueue = Volley.newRequestQueue(OrderHistory.this);
+        String URL = ""+del+":8080/getHistory";
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -133,24 +132,27 @@ public class WishList extends AppCompatActivity {
                         }
 
                         Log.d("foodlist", "" + foodList);
-                        final FoodAdapter foodAdapter = new FoodAdapter(WishList.this, foodList);
-                        recyclerView.setAdapter(foodAdapter);
+//                        final FoodAdapter foodAdapter = new FoodAdapter(OrderHistory.this, foodList);
+//                        recyclerView.setAdapter(foodAdapter);
+
+                        final OrderHistoryAdapter historyAdapter = new OrderHistoryAdapter(OrderHistory.this,foodList);
+                        recyclerView.setAdapter(historyAdapter);
                         mShimmerViewContainer.stopShimmer();
                         mShimmerViewContainer.setVisibility(View.GONE);
 
-                        foodAdapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
-                            public void onItemClick(int position) {
-                                Data item = foodList.get(position);
-                                sendData(item.getRestaurant_name(), item.getCategory(), item.getImgname(), item.getRid());
-                                foodList.remove(position);
-                                foodAdapter.notifyItemRemoved(position);
-
-                                Toast.makeText(WishList.this, "Sent to cart Successfully", Toast.LENGTH_SHORT).show();
-
-                            }
-
-
-                        });
+//                        foodAdapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
+//                            public void onItemClick(int position) {
+//                                Data item = foodList.get(position);
+//                                sendData(item.getRestaurant_name(), item.getCategory(), item.getImgname(), item.getRid());
+//                                foodList.remove(position);
+//                                foodAdapter.notifyItemRemoved(position);
+//
+//                                Toast.makeText(OrderHistory.this, "Sent to cart Successfully", Toast.LENGTH_SHORT).show();
+//
+//                            }
+//
+//
+//                        });
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -167,42 +169,6 @@ public class WishList extends AppCompatActivity {
 
     //end of getUrls/////////////////////////////////////////////////////////////
 
-
-    public void sendData(String restaurant_name, String category, String imgname, String rid){
-
-        RequestQueue requestQueue = Volley.newRequestQueue(WishList.this);
-        getIp ip = new getIp();
-        String del = ip.getIp();
-        String URL = ""+del+":8080/order";
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("restaurant_name", ""+restaurant_name);
-            jsonObject.put("category", ""+category);
-            jsonObject.put("email",email);
-            jsonObject.put("image",""+imgname);
-            jsonObject.put("rid",""+rid);
-
-            Log.d("jsonobject", ""+jsonObject);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        final String requestBody = jsonObject.toString();
-        ConnectionManager.sendData(requestBody, requestQueue, URL, new ConnectionManager.VolleyCallback() {
-            @Override
-            public void onSuccessResponse(String result) {
-                Log.d("Data sent =", "" + result);
-            }
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("error: ", "Volley needs attention");
-            }
-
-        });
-    }
-/////////////////////////////////
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -210,3 +176,4 @@ public class WishList extends AppCompatActivity {
         startActivity(intent);
     }
 }
+

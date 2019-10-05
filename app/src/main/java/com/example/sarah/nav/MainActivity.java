@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,new HomeFragment()).commit();
                 break;
             case R.id.wishlist:
+
                 Intent wishlist=new Intent(MainActivity.this, WishList.class);
                 startActivity(wishlist);
                 finish();
@@ -74,8 +75,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(order);
                 finish();
                 break;
+            case R.id.history:
+                Toast.makeText(getApplicationContext(), "hbhvbhvh", Toast.LENGTH_SHORT).show();
+                Intent history=new Intent(MainActivity.this, OrderHistory.class);
+                startActivity(history);
+                finish();
+                break;
             case R.id.logout:
                 sessionManager.logout();
+                break;
+            case R.id.about_us:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,new AboutFragment()).commit();
                 break;
 
             case R.id.call:
@@ -98,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.add:
 
-                Toast.makeText(this, "Add haggu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

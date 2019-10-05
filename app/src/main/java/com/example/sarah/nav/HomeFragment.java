@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity().getApplicationContext(), "REEEEE", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity().getApplicationContext(), "REEEEE", Toast.LENGTH_SHORT).show();
                         myAppAdapter.notifyDataSetChanged();
                         refresh.setRefreshing(false);
                     }
@@ -164,24 +164,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mShimmerViewContainer.startShimmer();
-//    }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        mShimmerViewContainer.startShimmer();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mShimmerViewContainer.stopShimmer();
-//    }
 
     public static class ViewHolder {
         public FrameLayout background;
@@ -356,7 +338,7 @@ public class HomeFragment extends Fragment {
 
         final JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("email", "leeaanair@gmail.com");
+            jsonObject.put("email", email_session);
             jsonObject.put("restaurant_name",restaurant_name);
             jsonObject.put("category",category);
             jsonObject.put("image",imgname);

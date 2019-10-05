@@ -285,6 +285,8 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"Order daba",Toast.LENGTH_SHORT).show();
                 openDialog();
+                removeOrder();
+                //sendData();
                 //sendOnChannel1();
             }
         });
@@ -441,6 +443,41 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
 
         });
         return sum1;
+    }
+
+
+
+    public void removeOrder(){
+        getIp ip = new getIp();
+        String del = ip.getIp();
+        RequestQueue requestQueue = Volley.newRequestQueue(OrderCart.this);
+        String URL = ""+del+":8080/removeOrder";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("email", email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        final String requestBody = jsonObject.toString();
+        ConnectionManager.sendData(requestBody, requestQueue, URL, new ConnectionManager.VolleyCallback() {
+            @Override
+            public void onSuccessResponse(String result) {
+                if (result.equals("Remove Ordered List")) {
+                    //foodList.clear();
+                    Log.d("resukt",result);
+                    //foodList.removeAll();
+
+                }
+            }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("error: ", "Volley needs attention");
+            }
+
+        });
+
+
+
     }
     /////////////////////////////////
     @Override

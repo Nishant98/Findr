@@ -37,6 +37,7 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity android:name=".WishList" android:label="Wishlist" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity android:name=".OrderCart" android:label="Order" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity android:name=".OrderHistory" android:label="History" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
     </application>
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bablipat</string>
+    <string name="app_name">Findr</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="call">Call</string>
@@ -37,4 +37,6 @@
     <string name="restuarant_name">Restuarant Name</string>
     <string name="rest_name">Rest name</string>
     <string name="bablipat">© BabliPat</string>
+    <string name="nishant_nimbalkar">Nishant Nimbalkar</string>
+    <string name="leeaa_nair">Leeaa Nair</string>
 </resources>

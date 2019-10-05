@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
@@ -20,7 +21,6 @@ import static com.example.sarah.nav.AppNotification.CHANNEL_1_ID;
 
 public class ExampleDialog extends AppCompatDialogFragment {
     EditText address;
-    private EditText editTextPassword;
     private ExampleDialogListener listener;
 
     private NotificationManagerCompat notificationManager;
@@ -39,16 +39,19 @@ public class ExampleDialog extends AppCompatDialogFragment {
 
         builder.setView(view)
                 .setTitle("Location Details")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                     }
                 })
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getActivity().getApplicationContext(),"DAALA",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity().getApplicationContext(),"DAALA",Toast.LENGTH_SHORT).show();
+                        Intent main = new Intent(getContext(),MainActivity.class);
+                        startActivity(main);
+                        Toast.makeText(getContext(), "Refresh to load.", Toast.LENGTH_SHORT).show();
                         sendOnChannel1();
 
                     }
