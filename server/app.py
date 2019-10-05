@@ -7,7 +7,7 @@ import sqlite3
 import hashlib
 import re
 
-ip = "http://your_ip_address:8080"
+ip = "http://192.168.43.158:8080"
 description = "Lorem ipsum dolor sit amet, proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 app = Flask(__name__, static_url_path='' )
 
@@ -91,6 +91,19 @@ def delOrdered():
 		return "Removed"
 
 
+@app.route('/removeOrder',methods = ['POST','GET'])
+def removeOrder():
+	if request.method == 'POST':
+		content = request.json
+		email = content['email']
+		print(email)
+		with sqlite3.connect("database.db") as conn:
+			cur = conn.cursor()
+			cur.execute('UPDATE wishlist set ordered=2 where email= ? and ordered = 1',(email,))
+			conn.commit()
+		return "Remove Ordered List"
+
+
 
 #Route for LOGIN
 
@@ -115,6 +128,12 @@ def login():
 
 
 #Route for REGISTER
+def check(password):
+	lis_password=["!","@","#","$","%","*"]
+	for i in lis_password:
+		if(i in password):
+			return 1
+	return 0
 
 @app.route('/register', methods = ['POST', 'GET'])
 def register():
@@ -129,9 +148,12 @@ def register():
 		pincode = content['pincode']
 		pincode = int(pincode)
 
+
 		#check whether parameters are blank
 		if(email=="" or password=="" or name=="" or city=="" or contact=="" or pincode==""):
 			return "One of the parameters is blank."
+		elif ((len(password)<8 and check(password)) == 0):
+			return "password haga"
 		else:
 			if not re.match(r"[^@]+@[^@]+\.[^@]+", email): #check format of email
 				return "Invalid Email"
@@ -284,6 +306,36 @@ def getOrdered():
 			print(t)
 			return jsonify(t)
 
+
+@app.route('/getHistory', methods=['GET','POST'])
+def getHistory():
+	print("hi")
+	if request.method == 'POST':
+		content = request.json
+		print(content)
+		email= content['email']
+		print("email is ",email)
+		conn = sqlite3.connect('database.db')
+		cur = conn.cursor()
+		cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price from wishlist, food, Restaurant where email = ? and ordered = 2 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
+		rows = cur.fetchall()
+		print("hi", rows)
+		t = []
+
+		if(rows==[]):
+			return "nahi mila"
+
+		else:
+			for i in range(0, len(rows)):
+				restaurant_name = rows[i][0]
+				category = rows[i][1]
+				image = rows[i][2]
+				price = rows[i][4]
+				rid = rows[i][3]
+				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price,'rid':rid}
+				t.append(res)
+			print(t)
+			return jsonify(t)
 
 #Run server on local IP and port 8080
 if __name__ == '__main__':
