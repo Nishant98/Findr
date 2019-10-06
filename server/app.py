@@ -2,12 +2,12 @@ from flask import Flask, request ,send_from_directory,jsonify
 import random
 import socket
 import json
-from list import create_list
+#from list import create_list
 import sqlite3
 import hashlib
 import re
 
-ip = "your_ip_and_port"
+ip = "http://192.168.0.103:8080"
 description = "Lorem ipsum dolor sit amet, proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 app = Flask(__name__, static_url_path='' )
 
@@ -78,11 +78,11 @@ def delOrdered():
 		category = content['category']
 		rid = content['rid']
 		image_name = content['image']
-		print(email)
-		print(restaurant_name)
-		print(category)
-		print(rid)
-		print(image_name)
+		# print(email)
+		# print(restaurant_name)
+		# print(category)
+		# print(rid)
+		# print(image_name)
 
 		with sqlite3.connect("database.db") as conn:
 			cur = conn.cursor()
@@ -114,7 +114,7 @@ def login():
 		content = request.json
 		email = content['email']
 		password = content['password']
-		print(email,password)
+		#print(email,password)
 		result = (hashlib.md5(password.encode())).hexdigest()
 		with sqlite3.connect("database.db") as conn:
 			cur = conn.cursor()
@@ -130,8 +130,8 @@ def login():
 #Route for REGISTER
 def check(password):
 	lis_password=["!","@","#","$","%","*"]
-	for i in lis_password:
-		if(i in password):
+	for i in password:
+		if(i in lis_password):
 			return 1
 	return 0
 
@@ -147,12 +147,16 @@ def register():
 		city = content['city']
 		pincode = content['pincode']
 		pincode = int(pincode)
-
+		print(password)
 
 		#check whether parameters are blank
 		if(email=="" or password=="" or name=="" or city=="" or contact=="" or pincode==""):
 			return "One of the parameters is blank."
-		elif ((len(password)<8 and check(password)) == 0):
+		elif (len(password)<8 and check(password) == 0):
+			print("in elif")
+			print(check(password))
+			print(len(password))
+			print("condition",len(password)<8 and check(password) == 0)
 			return "password haga"
 		else:
 			if not re.match(r"[^@]+@[^@]+\.[^@]+", email): #check format of email
