@@ -2,10 +2,10 @@ from flask import Flask, request ,send_from_directory,jsonify
 import random
 import socket
 import json
-#from list import create_list
 import sqlite3
 import hashlib
 import re
+
 
 ip = "http://192.168.0.103:8080"
 description = "Lorem ipsum dolor sit amet, proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -18,7 +18,7 @@ try:
 	conn.execute('CREATE TABLE if not exists User ( email TEXT, password TEXT, city TEXT, pincode INTEGER(7), mobile INTEGER(11),name TEXT, PRIMARY KEY(email))')
 	conn.close()
 except:
-	print("error hua in user")
+	print("Error while creating User table")
 	conn.close()
 
 # Restaurant table
@@ -27,7 +27,7 @@ try:
 	conn.execute('CREATE TABLE if not exists Restaurant ( rid INTEGER, name TEXT, city TEXT, PRIMARY KEY(rid))')
 	conn.close()
 except :
-	print("Error hua in rest")
+	print("Error while creating Restaurant table")
 	conn.close()
 
 # Food table
@@ -36,7 +36,7 @@ try:
 	conn.execute('CREATE TABLE if not exists "food" ( `rid` INTEGER, `category` TEXT, `image` TEXT, `price` INTEGER, FOREIGN KEY(`rid`) REFERENCES `Restaurant`(`rid`) on delete cascade )')
 	conn.close()
 except:
-	print("error hua in food")
+	print("Error while creating food table")
 	conn.close()
 
 #Create table for food_order
@@ -46,7 +46,7 @@ try:
 	conn.execute('CREATE TABLE if not exists "orderloc" ( `email` TEXT, `rid` INTEGER, `totalprice` INTEGER, `time` DATETIME, FOREIGN KEY(`email`) REFERENCES `User`(`email`), FOREIGN KEY(`rid`) REFERENCES `Restaurant`(`rid`) on delete cascade )')
 	conn.close()
 except :
-	print("Error hua in orderloc")
+	print("Error while creating orderloc table")
 	conn.close()
 
 #wishlist table
@@ -56,7 +56,7 @@ try:
 	conn.execute('CREATE TABLE if not exists "wishlist" ( `email` TEXT, `rid` INTEGER, `category` TEXT, `image` TEXT, `ordered` INTEGER DEFAULT 0, FOREIGN KEY(`rid`) REFERENCES `Restaurant`(`rid`) on delete cascade, FOREIGN KEY(`email`) REFERENCES `User`(`email`) )')
 	conn.close()
 except :
-	print("Error hua in wishlist")
+	print("Error while creating wishlist table")
 	conn.close()
 
 
@@ -67,22 +67,18 @@ def images(path):
 	return send_from_directory('images',path)
 
 
+#Route to delete ordered items
 @app.route('/delOrdered',methods = ['POST','GET'])
 def delOrdered():
 	print("del")
 	if request.method == 'POST':
-		print("inside del delOrdered")
 		content = request.json
 		email = content['email']
 		restaurant_name = content['restaurant_name']
 		category = content['category']
 		rid = content['rid']
 		image_name = content['image']
-		# print(email)
-		# print(restaurant_name)
-		# print(category)
-		# print(rid)
-		# print(image_name)
+
 
 		with sqlite3.connect("database.db") as conn:
 			cur = conn.cursor()
@@ -90,13 +86,12 @@ def delOrdered():
 			conn.commit()
 		return "Removed"
 
-
+# Route for clearing order
 @app.route('/removeOrder',methods = ['POST','GET'])
 def removeOrder():
 	if request.method == 'POST':
 		content = request.json
 		email = content['email']
-		print(email)
 		with sqlite3.connect("database.db") as conn:
 			cur = conn.cursor()
 			cur.execute('UPDATE wishlist set ordered=2 where email= ? and ordered = 1',(email,))
@@ -110,11 +105,9 @@ def removeOrder():
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
 	if request.method == 'POST':
-		#print("hakjbcska")
 		content = request.json
 		email = content['email']
 		password = content['password']
-		#print(email,password)
 		result = (hashlib.md5(password.encode())).hexdigest()
 		with sqlite3.connect("database.db") as conn:
 			cur = conn.cursor()
@@ -147,17 +140,16 @@ def register():
 		city = content['city']
 		pincode = content['pincode']
 		pincode = int(pincode)
-		print(password)
 
 		#check whether parameters are blank
 		if(email=="" or password=="" or name=="" or city=="" or contact=="" or pincode==""):
 			return "One of the parameters is blank."
 		elif (len(password)<8 and check(password) == 0):
-			print("in elif")
-			print(check(password))
-			print(len(password))
-			print("condition",len(password)<8 and check(password) == 0)
-			return "password haga"
+			# print("in elif")
+			# print(check(password))
+			# print(len(password))
+			# print("condition",len(password)<8 and check(password) == 0)
+			return "Invalid password"
 		else:
 			if not re.match(r"[^@]+@[^@]+\.[^@]+", email): #check format of email
 				return "Invalid Email"
@@ -176,6 +168,7 @@ def register():
 						return "1" #registration success
 
 
+#Route to add items in Card View
 @app.route('/addSwipe', methods=['GET','POST'])
 def addSwipe():
 	global ip
@@ -197,7 +190,7 @@ def addSwipe():
 	path_parameters = random.randrange(0,length)
 	# path = ip+","+restaurant_name+ "," +rows[path_parameters][0]+ "," +rows[path_parameters][1]+ "," +str(description)+","+rows[path_parameters][2]
 	res = {'ip': ip,'restaurant_name':restaurant_name,'category':rows[path_parameters][0],'imgname':rows[path_parameters][1],'price':rows[path_parameters][2],'description':str(description),'rid':restaurant}
-	print(res)
+	# print(res)
 	return jsonify(res)
 
 #Route to SWIPE
@@ -206,8 +199,6 @@ def addSwipe():
 def swipe():
 	global ip
 	content = request.json
-	print("ADD SWIPEEEEEEEE",content)
-
 	email  = content['email']
 	restaurant_name = content['restaurant_name']
 	category = content['category']
@@ -217,7 +208,6 @@ def swipe():
 	rid = int(rid)
 	swipe = content['swipe']
 	if(swipe=="1"):
-		print("swiped right")
 		#add in DB
 		with sqlite3.connect("database.db") as con:
 			cur = con.cursor()
@@ -229,23 +219,21 @@ def swipe():
 		#code for left swipe
 		return "0"
 
+# Route to display items in Wishlist
 @app.route('/getWishlist', methods=['GET','POST'])
 def getWishlist():
 	if request.method == 'POST':
 		content = request.json
-		print(content)
 		email= content['email']
-		print("email is ",email)
 
 		conn = sqlite3.connect('database.db')
 		cur = conn.cursor()
 		cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price from wishlist, food, Restaurant where email = ? and ordered = 0 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
 		rows = cur.fetchall()
-		print("hi", rows)
 		t = []
 
 		if(rows==[]):
-			return "nahi mila"
+			return "not found"
 
 		else:
 			for i in range(0, len(rows)):
@@ -257,7 +245,7 @@ def getWishlist():
 
 				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price,'rid':rid}
 				t.append(res)
-			print(t)
+			# print(t)
 			return jsonify(t)
 
 
@@ -280,23 +268,21 @@ def order():
 		return "1"
 
 
+# Route to display items in OrderCart
+
 @app.route('/getOrdered', methods=['GET','POST'])
 def getOrdered():
-	print("hi")
 	if request.method == 'POST':
 		content = request.json
-		print(content)
 		email= content['email']
-		print("email is ",email)
 		conn = sqlite3.connect('database.db')
 		cur = conn.cursor()
 		cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price from wishlist, food, Restaurant where email = ? and ordered = 1 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
 		rows = cur.fetchall()
-		print("hi", rows)
 		t = []
 
 		if(rows==[]):
-			return "nahi mila"
+			return "not found"
 
 		else:
 			for i in range(0, len(rows)):
@@ -307,27 +293,24 @@ def getOrdered():
 				rid = rows[i][3]
 				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price,'rid':rid}
 				t.append(res)
-			print(t)
+			# print(t)
 			return jsonify(t)
 
 
+# Route to display items in History
 @app.route('/getHistory', methods=['GET','POST'])
 def getHistory():
-	print("hi")
 	if request.method == 'POST':
 		content = request.json
-		print(content)
 		email= content['email']
-		print("email is ",email)
 		conn = sqlite3.connect('database.db')
 		cur = conn.cursor()
 		cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price from wishlist, food, Restaurant where email = ? and ordered = 2 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
 		rows = cur.fetchall()
-		print("hi", rows)
 		t = []
 
 		if(rows==[]):
-			return "nahi mila"
+			return "not found"
 
 		else:
 			for i in range(0, len(rows)):
@@ -338,7 +321,6 @@ def getHistory():
 				rid = rows[i][3]
 				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price,'rid':rid}
 				t.append(res)
-			print(t)
 			return jsonify(t)
 
 #Run server on local IP and port 8080
