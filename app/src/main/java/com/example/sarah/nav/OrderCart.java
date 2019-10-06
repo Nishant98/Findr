@@ -227,6 +227,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -249,6 +250,8 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
     TextView price;
     Button order_button;
     int sum=0;
+    ShimmerFrameLayout mShimmerViewContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -273,6 +276,9 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
         HashMap<String, String> user = sessionManager.getUserDetails();
         email = user.get(sessionManager.EMAIL);
 
+        //shimmer
+        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.LayoutManager rvlayoutmanager = linearLayoutManager;
@@ -290,6 +296,16 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
         });
 
         getData();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmer();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mShimmerViewContainer.stopShimmer();
     }
 
     public void openDialog() {
@@ -341,6 +357,11 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
         ConnectionManager.sendData(requestBody, requestQueue, URL, new ConnectionManager.VolleyCallback() {
             @Override
             public void onSuccessResponse(String result) {
+                if(result.equals("not found")){
+                    Toast.makeText(OrderCart.this, "You've not ordered anything. :(", Toast.LENGTH_SHORT).show();
+                    mShimmerViewContainer.stopShimmer();
+                    mShimmerViewContainer.setVisibility(View.GONE);
+                }
                 if (result != null) {
                     try {
                         JSONArray jsonArray = new JSONArray(result);

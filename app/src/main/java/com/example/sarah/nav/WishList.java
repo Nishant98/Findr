@@ -107,6 +107,11 @@ public class WishList extends AppCompatActivity {
             @Override
             public void onSuccessResponse(String result) {
                 Log.d("result is ", "" + result);
+                if(result.equals("not found")){
+                    Toast.makeText(WishList.this, "Swipe to add in Wishlist :)", Toast.LENGTH_SHORT).show();
+                    mShimmerViewContainer.stopShimmer();
+                    mShimmerViewContainer.setVisibility(View.GONE);
+                }
                 if (result != null) {
                     try {
                         JSONArray jsonArray = new JSONArray(result);

@@ -51,7 +51,7 @@ public class ExampleDialog extends AppCompatDialogFragment {
                         //Toast.makeText(getActivity().getApplicationContext(),"DAALA",Toast.LENGTH_SHORT).show();
                         Intent main = new Intent(getContext(),MainActivity.class);
                         startActivity(main);
-                        Toast.makeText(getContext(), "Refresh to load.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Refresh to load.", Toast.LENGTH_SHORT).show();
                         sendOnChannel1();
 
                     }

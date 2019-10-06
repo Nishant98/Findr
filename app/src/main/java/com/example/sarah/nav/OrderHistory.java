@@ -105,6 +105,11 @@ public class OrderHistory extends AppCompatActivity {
             @Override
             public void onSuccessResponse(String result) {
                 Log.d("result is ", "" + result);
+                if(result.equals("not found")){
+                    Toast.makeText(OrderHistory.this, "You've not ordered anything. :(", Toast.LENGTH_SHORT).show();
+                    mShimmerViewContainer.stopShimmer();
+                    mShimmerViewContainer.setVisibility(View.GONE);
+                }
                 if (result != null) {
                     try {
                         JSONArray jsonArray = new JSONArray(result);
@@ -140,6 +145,7 @@ public class OrderHistory extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+
             }
             @Override
             public void onErrorResponse(VolleyError error) {
