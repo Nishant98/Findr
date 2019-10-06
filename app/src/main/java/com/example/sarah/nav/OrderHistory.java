@@ -100,7 +100,6 @@ public class OrderHistory extends AppCompatActivity {
             e.printStackTrace();
         }
         final String requestBody = jsonObject.toString();
-        Log.d("str", "str is" + requestBody);
 
         ConnectionManager.sendData(requestBody, requestQueue, URL, new ConnectionManager.VolleyCallback() {
             @Override
@@ -109,8 +108,6 @@ public class OrderHistory extends AppCompatActivity {
                 if (result != null) {
                     try {
                         JSONArray jsonArray = new JSONArray(result);
-                        Log.d("jsonAray", "" + jsonArray);
-                        Log.d("Size of JSON Array", "" + jsonArray.length());
                         int i;
                         for (i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -123,7 +120,6 @@ public class OrderHistory extends AppCompatActivity {
                                 imgname = jsonObject1.getString("image");
                                 price = jsonObject1.getString("price");
                                 rid = jsonObject1.getString("rid");
-                                //description = jsonObject1.getString("description");
                             }
                             catch (JSONException e) {
                                 e.printStackTrace();
@@ -139,20 +135,6 @@ public class OrderHistory extends AppCompatActivity {
                         recyclerView.setAdapter(historyAdapter);
                         mShimmerViewContainer.stopShimmer();
                         mShimmerViewContainer.setVisibility(View.GONE);
-
-//                        foodAdapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
-//                            public void onItemClick(int position) {
-//                                Data item = foodList.get(position);
-//                                sendData(item.getRestaurant_name(), item.getCategory(), item.getImgname(), item.getRid());
-//                                foodList.remove(position);
-//                                foodAdapter.notifyItemRemoved(position);
-//
-//                                Toast.makeText(OrderHistory.this, "Sent to cart Successfully", Toast.LENGTH_SHORT).show();
-//
-//                            }
-//
-//
-//                        });
 
                     } catch (JSONException e) {
                         e.printStackTrace();

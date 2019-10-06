@@ -11,9 +11,6 @@ public class ModelFood {
     }
     public String getRid(){return rid;}
 
-//    public void setPrice(String price) {
-//        this.price = price;
-//    }
 
     public ModelFood(String restaurant_name, String category, String imgname,String price, String rid) {
         this.restaurant_name = restaurant_name;

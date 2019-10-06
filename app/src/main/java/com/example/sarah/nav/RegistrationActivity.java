@@ -19,9 +19,7 @@ import org.json.JSONObject;
 public class RegistrationActivity extends AppCompatActivity {
     private Button register;
     private EditText email,password,city,pincode,name,contact;
-    //6
     ProgressBar loading;
-    final String URL="http://192.168.0.103:8080/register";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,22 +101,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         ConnectionManager.sendData(requestBody, requestQueue, URL, new ConnectionManager.VolleyCallback(){
             @Override
-            /*
-            public void onSuccessResponse(String result) {
-                Log.d("RESULT","RESULTS "+result);
-                if (result.equals("1")) {
-                    Toast.makeText(RegistrationActivity.this, result, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                }
-                //System.out.print("Bool" + result);
-                 else {
-                    Toast.makeText(RegistrationActivity.this, "Oops! Try Again.", Toast.LENGTH_SHORT).show();
-                }
-            }
-            */
-
-
             public void onSuccessResponse(String result) {
                 Log.d("RESULT","RESULTS "+result);
                 if (result.equals("1")) {

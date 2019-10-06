@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.call:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragement_container,new CallFragment()).commit();
                 Uri u=Uri.parse("tel:123456789");
                 Intent callIntent = new Intent(Intent.ACTION_DIAL,u);
                 //callIntent.setData(Uri.parse("tel:123456789"));
@@ -106,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.add:
-
                 Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
                 break;
         }

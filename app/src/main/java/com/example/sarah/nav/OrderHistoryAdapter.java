@@ -99,7 +99,6 @@ class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewH
 
         ImageView food_image;
         TextView food_name, food_price, rest_name;
-        //Button food_order;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView) ;
@@ -108,19 +107,6 @@ class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewH
             food_price = itemView.findViewById(R.id.food_price_history);
             rest_name = itemView.findViewById(R.id.rest_name_history);
 
-//            food_order.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Log.d("On cart click", "Cart Clicked");
-//                    if(listener != null){
-//                        int position = getAdapterPosition();
-//                        if(position != RecyclerView.NO_POSITION){
-//                            listener.onItemClick(position);
-//                        }
-//                    }
-//                }
-//
-//            });
         }
     }
 }

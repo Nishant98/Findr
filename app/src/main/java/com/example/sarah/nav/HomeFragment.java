@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
                         rightSwipe(restaurant_name,category,imgname,rid);
 
                 myAppAdapter.notifyDataSetChanged();
-                Toast.makeText(getActivity().getApplicationContext(),"RiGHT",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity().getApplicationContext(),"RiGHT",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -264,7 +264,7 @@ public class HomeFragment extends Fragment {
                             price = jsonObject1.getString("price");
                             rid = jsonObject1.getString("rid");
                             description = jsonObject1.getString("description");
-                            Log.d("descooo",""+jsonObject1);
+                            Log.d("description",""+jsonObject1);
 
 
                             System.out.println("ip : "+ip+" restaurant_name : "+restaurant_name+" category = "+category+" price = "+price+" rid = "+rid );
@@ -295,7 +295,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                            "please try again." + error,
+                            "Volley needs attention" + error,
                             Toast.LENGTH_LONG);
                     toast.show();
                 }
@@ -365,7 +365,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                        "please try again." + error,
+                        "Volley needs attention." + error,
                         Toast.LENGTH_LONG);
                 toast.show();
             }

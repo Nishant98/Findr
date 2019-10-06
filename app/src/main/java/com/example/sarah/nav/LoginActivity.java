@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this,"Saved",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    email.setError("Haggu email daal");
-                    password.setError("Haggu Password daal");
+                    email.setError("Enter email");
+                    password.setError("Enter password");
                 }
             }
         });
@@ -84,11 +84,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void Login(final String email, final String password) {
-        //name=findViewById(R.id.name);
         getIp ip = new getIp();
         String del = ip.getIp();
         RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-        //String URL = "http://192.168.0.103:8080/login";
         String URL = ""+del+":8080/login";
 
         JSONObject jsonObject = new JSONObject();
@@ -114,7 +112,6 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Hello "+email, Toast.LENGTH_SHORT).show();
 
                             sessionManager.createSession(email);
-                            System.out.println("Email"+email);
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);

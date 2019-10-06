@@ -238,8 +238,6 @@ import java.util.HashMap;
 import static com.example.sarah.nav.AppNotification.CHANNEL_1_ID;
 
 public class OrderCart extends AppCompatActivity implements ExampleDialog.ExampleDialogListener{
-    //OrderAdapter orderAdapter;
-
     //for notifications
     //private NotificationManagerCompat notificationManager;
 
@@ -346,8 +344,6 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
                 if (result != null) {
                     try {
                         JSONArray jsonArray = new JSONArray(result);
-                        Log.d("jsonAray", "" + jsonArray);
-                        Log.d("Size of JSON Array", "" + jsonArray.length());
                         int i;
                         //int sum=0;
                         for (i = 0; i < jsonArray.length(); i++) {
@@ -372,12 +368,10 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
                         }
                         Log.d("sum outside loop", String.valueOf(sum));
                         price.setText("Price:₹ "+String.valueOf(sum));
-                        //String sum_pass = String.valueOf(sum);
 
                         final OrderAdapter orderAdapter = new OrderAdapter(OrderCart.this, foodList);
                         recyclerView.setAdapter(orderAdapter);
 
-                        //int finalSum = sum;
                         orderAdapter.setOnItemClickListener(new OrderAdapter.OnItemClickListener() {
                             public void onItemClick(int position) {
                                 ModelFood item = foodList.get(position);
@@ -464,7 +458,7 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
             public void onSuccessResponse(String result) {
                 if (result.equals("Remove Ordered List")) {
                     //foodList.clear();
-                    Log.d("resukt",result);
+                    Log.d("result",result);
                     //foodList.removeAll();
 
                 }

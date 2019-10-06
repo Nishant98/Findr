@@ -29,9 +29,6 @@ public class ProfileFragment extends Fragment {
         HashMap<String, String> user = sessionManager.getUserDetails();
         email_session = user.get(sessionManager.EMAIL);
 
-//        name = view.findViewById(R.id.name);
-//        name.setText("Sarah");
-
         email = view.findViewById(R.id.email);
         email.setText(email_session);
 

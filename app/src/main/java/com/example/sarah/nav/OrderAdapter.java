@@ -50,7 +50,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ModelFood foodItem  =  Mlist_order.get(position);
-        Log.d("tag", "jholu    "+foodItem);
 
         ImageView image = holder.food_image;
         TextView name, price, order_rest_name;
