@@ -2,7 +2,6 @@ from flask import Flask, request ,send_from_directory,jsonify
 import random
 import socket
 import json
-#from list import create_list
 import sqlite3
 import hashlib
 import re
