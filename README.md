@@ -8,7 +8,7 @@ Swipe to eat!
 An application which shows user random food items and order accordingly.
 
 ## Requirements
-1. Python 3.4 or higher.\
+1. Python 3.4 or higher.
 2. Android Studio.
 
 ## Installation Steps
@@ -32,7 +32,7 @@ An application which shows user random food items and order accordingly.
 2. Flask
 
 ## Screenshots
-![Home View](/images/home.jpg?raw=true)
+![Home View](/images/home.jpg=200x100?raw=true)
 
 ![Home View](/images/wishlist.jpg?raw=true)
 
