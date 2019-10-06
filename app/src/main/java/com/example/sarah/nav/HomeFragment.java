@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
 
        // mProgressBar = getActivity().findViewById(R.id.progressBar);
         //mProgressBar.setVisibility(View.VISIBLE);
+        myAppAdapter = new MyAppAdapter(array,getActivity());
         return inflater.inflate(R.layout.home,container,false);
     }
 
@@ -94,21 +95,21 @@ public class HomeFragment extends Fragment {
 //        });
 
 
-        final SwipeRefreshLayout refresh = (SwipeRefreshLayout) getActivity().findViewById(R.id.refresh);
-        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh.setRefreshing(true);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Toast.makeText(getActivity().getApplicationContext(), "REEEEE", Toast.LENGTH_SHORT).show();
-                        myAppAdapter.notifyDataSetChanged();
-                        refresh.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-        });
+//        final SwipeRefreshLayout refresh = (SwipeRefreshLayout) getActivity().findViewById(R.id.refresh);
+//        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                refresh.setRefreshing(true);
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        //Toast.makeText(getActivity().getApplicationContext(), "REEEEE", Toast.LENGTH_SHORT).show();
+//                        myAppAdapter.notifyDataSetChanged();
+//                        refresh.setRefreshing(false);
+//                    }
+//                }, 1000);
+//            }
+//        });
 
                 flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
                     @Override
@@ -153,7 +154,7 @@ public class HomeFragment extends Fragment {
                 view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
         });
-        refresh.setEnabled(true);
+        //refresh.setEnabled(true);
 
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
@@ -287,6 +288,7 @@ public class HomeFragment extends Fragment {
                         myAppAdapter = new MyAppAdapter(array, getActivity());
                         flingContainer.setAdapter(myAppAdapter);
                         //mProgressBar.setVisibility(View.INVISIBLE);
+                        myAppAdapter.notifyDataSetChanged();
 
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();

@@ -82,7 +82,7 @@ public class WishList extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
-        Toast.makeText(this, "Refresh to Load Items", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Refresh to Load Items", Toast.LENGTH_SHORT).show();
         return true;
     }
 
