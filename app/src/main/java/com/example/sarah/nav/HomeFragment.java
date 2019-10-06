@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
 
        // mProgressBar = getActivity().findViewById(R.id.progressBar);
         //mProgressBar.setVisibility(View.VISIBLE);
+        myAppAdapter = new MyAppAdapter(array, getActivity());
         return inflater.inflate(R.layout.home,container,false);
     }
 
@@ -286,6 +287,7 @@ public class HomeFragment extends Fragment {
                         Log.d("array",""+array);
                         myAppAdapter = new MyAppAdapter(array, getActivity());
                         flingContainer.setAdapter(myAppAdapter);
+                        myAppAdapter.notifyDataSetChanged();
                         //mProgressBar.setVisibility(View.INVISIBLE);
 
                     } else {
