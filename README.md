@@ -12,10 +12,10 @@ An application which shows user random food items and order accordingly.
 2. Android Studio.
 
 ## Installation Steps
-1. Download the zip file, app.py, database.db\
-2. Import the zip in Android Studio.\
-3. Modify the ip address in the server file and getIp.java in Android Studio.\
-4. Build and Run the app in Android Studio.\
+1. Download the zip file, app.py, database.db
+2. Import the zip in Android Studio.
+3. Modify the ip address in the server file and getIp.java in Android Studio.
+4. Build and Run the app in Android Studio.
 5. To run the server file: python app.py or python3 app.py
 
 
