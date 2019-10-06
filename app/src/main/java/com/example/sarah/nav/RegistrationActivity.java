@@ -60,12 +60,12 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    email.setError("Haggu email daal");
-                    password.setError("Haggu Password daal");
-                    name.setError("Haggu Naam daal");
-                    city.setError("Haggu City daal");
-                    pincode.setError("Haggu Pincode daal");
-                    contact.setError("Haggu Contact daal");
+                    email.setError("Please enter email");
+                    password.setError("Please enter password");
+                    name.setError("Please Enter Name");
+                    city.setError("Please Enter City");
+                    pincode.setError("Please Enter Pincode");
+                    contact.setError("Please enter Contact");
                 }
             }
         });
@@ -93,10 +93,6 @@ public class RegistrationActivity extends AppCompatActivity {
             jsonObject.put("city", mCity);
             jsonObject.put("pincode", mPincode);
             jsonObject.put("contact", mContact);
-
-
-
-
         }
         catch (Exception e)
         {

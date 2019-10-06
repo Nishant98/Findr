@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 finish();
                 break;
             case R.id.history:
-                Toast.makeText(getApplicationContext(), "hbhvbhvh", Toast.LENGTH_SHORT).show();
                 Intent history=new Intent(MainActivity.this, OrderHistory.class);
                 startActivity(history);
                 finish();

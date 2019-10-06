@@ -41,8 +41,22 @@
             android:textStyle="italic"
             android:textColor="#fff"
             android:textSize="20sp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="0dp"
             android:text="@string/Sarah_Solkar"/>
+
+        <TextView
+            android:id="@+id/sarah_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:padding="5dp"
+            android:layout_marginTop="0dp"
+            android:textAlignment="center"
+            android:textStyle="italic"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:layout_marginBottom="30dp"
+            android:text="Quirky, Weird, Android Developer."/>
 
 
 
@@ -81,8 +95,21 @@
             android:textStyle="italic"
             android:textColor="#fff"
             android:textSize="20sp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="0dp"
             android:text="@string/nishant_nimbalkar"/>
+        <TextView
+            android:id="@+id/nimbu_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:padding="5dp"
+            android:layout_marginTop="0dp"
+            android:textAlignment="center"
+            android:textStyle="italic"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:layout_marginBottom="30dp"
+            android:text="Trekking, Foodie, Backend Developer."/>
 
 
 
@@ -101,7 +128,7 @@
                 android:id="@+id/leeaa_image"
                 android:layout_width="500dp"
                 android:layout_height="500dp"
-                android:src="@drawable/butt"
+                android:src="@drawable/leeaa"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="11dp"
                 app:civ_border_width="2dp"
@@ -120,6 +147,19 @@
             android:textColor="#fff"
             android:textSize="20sp"
             android:text="@string/leeaa_nair"/>
+        <TextView
+            android:id="@+id/leeaa_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:padding="5dp"
+            android:layout_marginTop="0dp"
+            android:textAlignment="center"
+            android:textStyle="italic"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:layout_marginBottom="30dp"
+            android:text="Geeky, Smart, Database Developer."/>
 
         <LinearLayout
             android:layout_width="match_parent"

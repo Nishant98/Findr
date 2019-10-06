@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "568881838966",
+    "firebase_url": "https://findr-cfdc9.firebaseio.com",
+    "project_id": "findr-cfdc9",
+    "storage_bucket": "findr-cfdc9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568881838966:android:c78944f6bd1f0ee9",
+        "android_client_info": {
+          "package_name": "com.example.sarah.nav"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568881838966-ic85e9n5qkqga84lng9lvkuusebmec2n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sarah.nav",
+            "certificate_hash": "a026c8cba3f5d30242d7bd6970c4899b7a0d3cf4"
+          }
+        },
+        {
+          "client_id": "568881838966-f7g5hka2f31jrai0ni5cq7gah6r2n6hg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD72jKuCbh4qKa0f8rcZJNHENGPqxaVsE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568881838966-f7g5hka2f31jrai0ni5cq7gah6r2n6hg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
