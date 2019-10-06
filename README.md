@@ -32,10 +32,15 @@ An application which shows user random food items and order accordingly.
 2. Flask
 
 ## Screenshots
-![Home View](/images/home.jpg =200x100?raw=true)
+Home
 
+![Home View](/images/home.jpg?raw=true)
+
+Wishlist
 ![Wishlist View](/images/wishlist.jpg?raw=true)
 
+OrderCart
 ![Order View](/images/order.jpg?raw=true)
 
+Previous Orders
 ![History View](/images/history.jpg?raw=true)
