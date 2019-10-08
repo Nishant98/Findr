@@ -5,9 +5,11 @@ import json
 import sqlite3
 import hashlib
 import re
+from datetime import datetime
 
 
-ip = "http://192.168.0.103:8080"
+
+ip = "http://192.168.43.158:8080"
 description = "Lorem ipsum dolor sit amet, proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 app = Flask(__name__, static_url_path='' )
 
@@ -15,7 +17,7 @@ app = Flask(__name__, static_url_path='' )
 # USER table
 conn = sqlite3.connect('database.db')
 try:
-	conn.execute('CREATE TABLE if not exists User ( email TEXT, password TEXT, city TEXT, pincode INTEGER(7), mobile INTEGER(11),name TEXT, PRIMARY KEY(email))')
+	conn.execute('CREATE TABLE if not exists User ( email TEXT, password TEXT, city TEXT, mobile INTEGER(11),name TEXT, PRIMARY KEY(email))')
 	conn.close()
 except:
 	print("Error while creating User table")
@@ -53,7 +55,7 @@ except :
 
 conn = sqlite3.connect('database.db')
 try:
-	conn.execute('CREATE TABLE if not exists "wishlist" ( `email` TEXT, `rid` INTEGER, `category` TEXT, `image` TEXT, `ordered` INTEGER DEFAULT 0, FOREIGN KEY(`rid`) REFERENCES `Restaurant`(`rid`) on delete cascade, FOREIGN KEY(`email`) REFERENCES `User`(`email`) )')
+	conn.execute('CREATE TABLE if not exists "wishlist" ( `email` TEXT, `rid` INTEGER, `category` TEXT, `image` TEXT, `time` TEXT, `ordered` INTEGER DEFAULT 0, FOREIGN KEY(`rid`) REFERENCES `Restaurant`(`rid`) on delete cascade, FOREIGN KEY(`email`) REFERENCES `User`(`email`) )')
 	conn.close()
 except :
 	print("Error while creating wishlist table")
@@ -67,7 +69,6 @@ def images(path):
 	return send_from_directory('images',path)
 
 
-#Route to delete ordered items
 @app.route('/delOrdered',methods = ['POST','GET'])
 def delOrdered():
 	print("del")
@@ -86,12 +87,25 @@ def delOrdered():
 			conn.commit()
 		return "Removed"
 
-# Route for clearing order
+
 @app.route('/removeOrder',methods = ['POST','GET'])
 def removeOrder():
+	today = datetime.today()
+	now = datetime.now()
+	#day = today.strftime("%B %d, %Y")
+	date = now.strftime("%b %d %Y %H:%M:%S")
+	time = date#day+" "+
+	# print(time)
+	# print(typeof(time))
 	if request.method == 'POST':
 		content = request.json
 		email = content['email']
+		print(email)
+		with sqlite3.connect("database.db") as conn:
+			cur = conn.cursor()
+			cur.execute('UPDATE wishlist set time=? where email= ? and ordered = 1',(time, email))
+			conn.commit()
+
 		with sqlite3.connect("database.db") as conn:
 			cur = conn.cursor()
 			cur.execute('UPDATE wishlist set ordered=2 where email= ? and ordered = 1',(email,))
@@ -138,11 +152,11 @@ def register():
 		contact = content['contact']
 		contact=int(contact)
 		city = content['city']
-		pincode = content['pincode']
-		pincode = int(pincode)
+		#pincode = content['pincode']
+		#pincode = int(pincode)
 
 		#check whether parameters are blank
-		if(email=="" or password=="" or name=="" or city=="" or contact=="" or pincode==""):
+		if(email=="" or password=="" or name=="" or city=="" or contact==""):
 			return "One of the parameters is blank."
 		elif (len(password)<8 and check(password) == 0):
 			# print("in elif")
@@ -163,12 +177,11 @@ def register():
 						return "User already exists."
 					else:
 						cur = conn.cursor()
-						cur.execute("INSERT INTO User VALUES (?, ?, ?, ?, ?, ?)",(email, result, city, pincode, contact, name)) #insert
+						cur.execute("INSERT INTO User VALUES (?, ?, ?, ?, ?)",(email, result, city, contact, name)) #insert
 						conn.commit()
 						return "1" #registration success
 
 
-#Route to add items in Card View
 @app.route('/addSwipe', methods=['GET','POST'])
 def addSwipe():
 	global ip
@@ -219,7 +232,6 @@ def swipe():
 		#code for left swipe
 		return "0"
 
-# Route to display items in Wishlist
 @app.route('/getWishlist', methods=['GET','POST'])
 def getWishlist():
 	if request.method == 'POST':
@@ -268,8 +280,6 @@ def order():
 		return "1"
 
 
-# Route to display items in OrderCart
-
 @app.route('/getOrdered', methods=['GET','POST'])
 def getOrdered():
 	if request.method == 'POST':
@@ -297,7 +307,6 @@ def getOrdered():
 			return jsonify(t)
 
 
-# Route to display items in History
 @app.route('/getHistory', methods=['GET','POST'])
 def getHistory():
 	if request.method == 'POST':
@@ -305,7 +314,7 @@ def getHistory():
 		email= content['email']
 		conn = sqlite3.connect('database.db')
 		cur = conn.cursor()
-		cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price from wishlist, food, Restaurant where email = ? and ordered = 2 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
+		cur.execute('SELECT distinct Restaurant.name, wishlist.category, wishlist.image, wishlist.rid, price, time from wishlist, food, Restaurant where email = ? and ordered = 2 and wishlist.image = food.image and wishlist.category = food.category and Restaurant.rid = wishlist.rid',(email,))
 		rows = cur.fetchall()
 		t = []
 
@@ -313,13 +322,15 @@ def getHistory():
 			return "not found"
 
 		else:
-			for i in range(0, len(rows)):
+			for i in range(len(rows)-1,-1,-1):
 				restaurant_name = rows[i][0]
 				category = rows[i][1]
 				image = rows[i][2]
 				price = rows[i][4]
 				rid = rows[i][3]
-				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price,'rid':rid}
+				time = rows[i][5]
+
+				res = {'restaurant_name':restaurant_name,'category':category,'image':image,'price':price,'rid':rid,'time':time}
 				t.append(res)
 			return jsonify(t)
 
