@@ -24,7 +24,7 @@ public class ExampleDialog extends AppCompatDialogFragment {
     private ExampleDialogListener listener;
 
     private NotificationManagerCompat notificationManager;
-
+    int flag=0;
 
     @NonNull
     @Override
@@ -49,14 +49,25 @@ public class ExampleDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Toast.makeText(getActivity().getApplicationContext(),"DAALA",Toast.LENGTH_SHORT).show();
-                        Intent main = new Intent(getContext(),MainActivity.class);
-                        startActivity(main);
-                        //Toast.makeText(getContext(), "Refresh to load.", Toast.LENGTH_SHORT).show();
-                        sendOnChannel1();
-
+                        Log.d("int","int is "+address.getText());
+                        String location = String.valueOf(address.getText()).trim();
+                        if(location.isEmpty()){
+                            Toast.makeText(getActivity().getApplicationContext(),"Enter valid Location",Toast.LENGTH_SHORT).show();
+                            flag=0;
+                        }else {
+                            flag=1;
+                            Intent main = new Intent(getContext(), MainActivity.class);
+                            startActivity(main);
+                            //Toast.makeText(getContext(), "Refresh to load.", Toast.LENGTH_SHORT).show();
+                            sendOnChannel1();
+                        }
                     }
                 });
         return builder.create();
+    }
+    public int flag2(){
+        Log.d("flag","flag dialog is "+flag);
+        return flag;
     }
     public void sendOnChannel1() {
         String title = "Findr";

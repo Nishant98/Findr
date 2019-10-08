@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 public class RegistrationActivity extends AppCompatActivity {
     private Button register;
-    private EditText email,password,city,pincode,name,contact;
+    private EditText email,password,city,name,contact;
     ProgressBar loading;
 
     @Override
@@ -34,7 +34,7 @@ public class RegistrationActivity extends AppCompatActivity {
         password=findViewById(R.id.password);
         register=findViewById(R.id.register);
         city=findViewById(R.id.city);
-        pincode=findViewById(R.id.pincode);
+        //pincode=findViewById(R.id.pincode);
         name=findViewById(R.id.name);
         contact=findViewById(R.id.contact);
 
@@ -47,14 +47,14 @@ public class RegistrationActivity extends AppCompatActivity {
                 String mName=name.getText().toString().trim();
 
                 String mCity=city.getText().toString().trim();
-                String mPincode=pincode.getText().toString().trim();
+                //String mPincode=pincode.getText().toString().trim();
                 String mContact=contact.getText().toString().trim();
 
 
 
-                if (!mEmail.isEmpty() || !mPassword.isEmpty() || !mName.isEmpty() || !mCity.isEmpty() || !mPincode.isEmpty() || !mContact.isEmpty()) {
-                    if(mContact.length()==10 && mPincode.length()==6) {
-                        Register(mEmail, mPassword, mName, mCity, mPincode, mContact);
+                if (!mEmail.isEmpty() || !mPassword.isEmpty() || !mName.isEmpty() || !mCity.isEmpty() ||  !mContact.isEmpty()) {
+                    if(mContact.length()==10) {
+                        Register(mEmail, mPassword, mName, mCity, mContact);
                     }
                 }
                 else{
@@ -62,7 +62,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     password.setError("Please enter password");
                     name.setError("Please Enter Name");
                     city.setError("Please Enter City");
-                    pincode.setError("Please Enter Pincode");
+//                    pincode.setError("Please Enter Pincode");
                     contact.setError("Please enter Contact");
                 }
             }
@@ -76,7 +76,7 @@ public class RegistrationActivity extends AppCompatActivity {
         return true;
     }
 
-    private void Register(String mEmail, String mPassword, String mName, String mCity, String mPincode, String mContact) {
+    private void Register(String mEmail, String mPassword, String mName, String mCity, String mContact) {
         getIp ip = new getIp();
         String del = ip.getIp();
         RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivity.this);
@@ -89,7 +89,7 @@ public class RegistrationActivity extends AppCompatActivity {
             jsonObject.put("password", mPassword);
             jsonObject.put("name", mName);
             jsonObject.put("city", mCity);
-            jsonObject.put("pincode", mPincode);
+            //jsonObject.put("pincode", mPincode);
             jsonObject.put("contact", mContact);
         }
         catch (Exception e)

@@ -32,7 +32,7 @@ class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewH
     public OrderHistoryAdapter(Context mContext, ArrayList<Data> mlist) {
         this.mContext = mContext;
         Mlist = mlist;
-        Log.d("mList", ""+Mlist);
+        Log.d("mList", "Mlist yeh hai "+Mlist);
     }
 
 
@@ -50,12 +50,13 @@ class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewH
         Data foodItem  =  Mlist.get(position);
         ImageView image = holder.food_image;
 
-        TextView name, price_order,rest_order;
+        TextView name, price_order,rest_order, time_view;
         name = holder.food_name;
         rest_order = holder.rest_name;
         price_order = holder.food_price;
+        time_view = holder.food_time;
 
-        String restaurant_name, category, del,imgname,rid;
+        String restaurant_name, category, del,imgname,rid,time;
         getIp ip = new getIp();
         del = ip.getIp();
 
@@ -63,6 +64,7 @@ class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewH
         category = foodItem.getCategory();
         rid = foodItem.getRid();
         imgname = foodItem.getImgname();
+        time = foodItem.getTime();
 
         //Log.d("restaurant name is",""+restaurant_name);
         //Log.d("category is",""+category);
@@ -87,6 +89,7 @@ class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewH
         rest_order.setText(restaurant_name);
         name.setText(category);
         price_order.setText("₹"+foodItem.getPrice());
+        time_view.setText(time);
     }
 
 
@@ -97,8 +100,9 @@ class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewH
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public TextView time;
         ImageView food_image;
-        TextView food_name, food_price, rest_name;
+        TextView food_name, food_price, rest_name,food_time;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView) ;
@@ -106,6 +110,7 @@ class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewH
             food_name = itemView.findViewById(R.id.food_name_history);
             food_price = itemView.findViewById(R.id.food_price_history);
             rest_name = itemView.findViewById(R.id.rest_name_history);
+            food_time = itemView.findViewById(R.id.food_time);
 
         }
     }

@@ -27,7 +27,7 @@ public class OrderHistory extends AppCompatActivity {
     String email="";
     SessionManager sessionManager;
     RecyclerView recyclerView;
-
+    int flag=0;
     //shimmer
     ProgressBar loading;
     ShimmerFrameLayout mShimmerViewContainer;
@@ -61,6 +61,12 @@ public class OrderHistory extends AppCompatActivity {
         recyclerView.setLayoutManager(rvlayoutmanager);
 
         getData();
+//        if(foodList.isEmpty()){
+//
+//            //Toast.makeText(this, "Order Cart Empty", Toast.LENGTH_LONG).show();
+//            setContentView(R.layout.error_page);
+//
+//        }
     }
 
     //shimmer
@@ -84,7 +90,21 @@ public class OrderHistory extends AppCompatActivity {
         //Toast.makeText(this, "Refresh to Load Items", Toast.LENGTH_SHORT).show();
         return true;
     }
-
+    public void error(){
+        Log.d("flag","flag is "+flag);
+        if(flag==1) {
+            if (foodList.isEmpty()) {
+                setContentView(R.layout.error_page);
+            }
+        }
+        else{
+            if (foodList.isEmpty()) {
+                setContentView(R.layout.error_page);
+            }
+            setContentView(R.layout.error_page);
+            //recreate();
+        }
+    }
     /////////////////////////////////////////////////////////////////////
     public void getData(){
         getIp ip = new getIp();
@@ -106,18 +126,21 @@ public class OrderHistory extends AppCompatActivity {
             public void onSuccessResponse(String result) {
                 Log.d("result is ", "" + result);
                 if(result.equals("not found")){
-                    Toast.makeText(OrderHistory.this, "You've not ordered anything. :(", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(OrderHistory.this, "You've not ordered anything. :(", Toast.LENGTH_SHORT).show();
                     mShimmerViewContainer.stopShimmer();
                     mShimmerViewContainer.setVisibility(View.GONE);
+                    flag = 0;
+                    error();
                 }
                 if (result != null) {
+                    flag = 1;
                     try {
                         JSONArray jsonArray = new JSONArray(result);
                         int i;
                         for (i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
-                            String restaurant_name = null,category = null, imgname = null, price = null,rid = null;
+                            String restaurant_name = null,category = null, imgname = null, price = null,rid = null,time=null;
                             String description = "Lorem ipsum dolor sit amet, proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
                             try {
                                 restaurant_name = jsonObject1.getString("restaurant_name");
@@ -125,11 +148,12 @@ public class OrderHistory extends AppCompatActivity {
                                 imgname = jsonObject1.getString("image");
                                 price = jsonObject1.getString("price");
                                 rid = jsonObject1.getString("rid");
+                                time = jsonObject1.getString("time");
                             }
                             catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            foodList.add(new Data(restaurant_name, category, imgname,price, description,rid));
+                            foodList.add(new Data(restaurant_name, category, imgname,price, description,rid, time));
                         }
 
                         Log.d("foodlist", "" + foodList);

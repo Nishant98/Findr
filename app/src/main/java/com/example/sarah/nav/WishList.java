@@ -33,6 +33,7 @@ public class WishList extends AppCompatActivity {
     //shimmer
     ProgressBar loading;
     ShimmerFrameLayout mShimmerViewContainer;
+    int flag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,14 @@ public class WishList extends AppCompatActivity {
         recyclerView.setLayoutManager(rvlayoutmanager);
 
         getData();
+//        if(foodList.isEmpty()){
+//
+//            //Toast.makeText(this, "Order Cart Empty", Toast.LENGTH_LONG).show();
+//            setContentView(R.layout.error_page);
+//
+//        }
+
+
     }
 
     //shimmer
@@ -86,6 +95,22 @@ public class WishList extends AppCompatActivity {
         return true;
     }
 
+
+    public void error(){
+        Log.d("flag","flag is "+flag);
+        if(flag==1) {
+            if (foodList.isEmpty()) {
+                setContentView(R.layout.error_page);
+            }
+        }
+        else{
+            if (foodList.isEmpty()) {
+                setContentView(R.layout.error_page);
+            }
+            setContentView(R.layout.error_page);
+            //recreate();
+        }
+    }
     /////////////////////////////////////////////////////////////////////
     public void getData(){
         getIp ip = new getIp();
@@ -111,8 +136,12 @@ public class WishList extends AppCompatActivity {
                     Toast.makeText(WishList.this, "Swipe to add in Wishlist :)", Toast.LENGTH_SHORT).show();
                     mShimmerViewContainer.stopShimmer();
                     mShimmerViewContainer.setVisibility(View.GONE);
+                    flag=0;
+                    error();
+
                 }
                 if (result != null) {
+                    flag=1;
                     try {
                         JSONArray jsonArray = new JSONArray(result);
                         Log.d("jsonAray", "" + jsonArray);
@@ -134,7 +163,7 @@ public class WishList extends AppCompatActivity {
                             catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            foodList.add(new Data(restaurant_name, category, imgname,price, description,rid));
+                            foodList.add(new Data(restaurant_name, category, imgname,price, description,rid,null));
                         }
 
                         Log.d("foodlist", "" + foodList);
@@ -149,7 +178,10 @@ public class WishList extends AppCompatActivity {
                                 sendData(item.getRestaurant_name(), item.getCategory(), item.getImgname(), item.getRid());
                                 foodList.remove(position);
                                 foodAdapter.notifyItemRemoved(position);
-
+                                if(foodList.isEmpty()){
+                                    flag = 0;
+                                }
+                                error();
                                 Toast.makeText(WishList.this, "Sent to cart Successfully", Toast.LENGTH_SHORT).show();
 
                             }

@@ -249,7 +249,8 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
     RecyclerView recyclerView;
     TextView price;
     Button order_button;
-    int sum=0;
+    int sum = 0;
+    int flag=0;
     ShimmerFrameLayout mShimmerViewContainer;
 
 
@@ -283,19 +284,52 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RecyclerView.LayoutManager rvlayoutmanager = linearLayoutManager;
         recyclerView.setLayoutManager(rvlayoutmanager);
+        getData();
         order_button = findViewById(R.id.food_order);
+        price = findViewById(R.id.price);
+//        if(foodList.isEmpty()){
+//
+//            //Toast.makeText(this, "Order Cart Empty", Toast.LENGTH_LONG).show();
+//            setContentView(R.layout.error_page);
+//
+//        }
+//        else{
+//
+//            order_button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //Toast.makeText(getApplicationContext(), "Clicked on Order", Toast.LENGTH_SHORT).show();
+//                    openDialog();
+//                    removeOrder();
+//                    //sendData();
+//                    //sendOnChannel1();
+//
+//                }
+//            });
+//
+//        }
+
         order_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Order daba",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Clicked on Order", Toast.LENGTH_SHORT).show();
                 openDialog();
-                removeOrder();
+                ExampleDialog obj1 = new ExampleDialog();
+                Log.d("example dialgo", "example dialog  "+obj1);
+                int a =obj1.flag2();
+                Log.d("a","a is "+a);
+                if(a!=0){
+                    removeOrder();
+                }
                 //sendData();
                 //sendOnChannel1();
+
             }
         });
 
-        getData();
+
+
+
     }
     @Override
     protected void onResume() {
@@ -336,6 +370,43 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
         return true;
     }
 
+
+    public void error(){
+        Log.d("flag","flag is "+flag);
+        if(flag==1) {
+            if (foodList.isEmpty()) {
+                setContentView(R.layout.error_page);
+            }
+            else {
+                order_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(getApplicationContext(), "Clicked on Order", Toast.LENGTH_SHORT).show();
+                        openDialog();
+                        ExampleDialog obj1 = new ExampleDialog();
+                        Log.d("example dialgo", "example dialog  "+obj1);
+                        int a =obj1.flag2();
+                        Log.d("a","a is "+a);
+                        if(a!=0){
+                        removeOrder();
+                        }
+                        //sendData();
+                        //sendOnChannel1();
+
+                    }
+                });
+            }
+        }
+        else{
+            if (foodList.isEmpty()) {
+                setContentView(R.layout.error_page);
+            }
+            setContentView(R.layout.error_page);
+            //recreate();
+        }
+
+
+    }
     /////////////////////////////////////////////////////////////////////
     public void getData(){
         getIp ip = new getIp();
@@ -358,11 +429,15 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
             @Override
             public void onSuccessResponse(String result) {
                 if(result.equals("not found")){
-                    Toast.makeText(OrderCart.this, "You've not ordered anything. :(", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(OrderCart.this, "You've not ordered anything. :(", Toast.LENGTH_SHORT).show();
                     mShimmerViewContainer.stopShimmer();
                     mShimmerViewContainer.setVisibility(View.GONE);
+                    flag = 0;
+                    error();
                 }
-                if (result != null) {
+                else if (result != null) {
+                    flag=1;
+
                     try {
                         JSONArray jsonArray = new JSONArray(result);
                         int i;
@@ -386,12 +461,15 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
                             }
                             foodList.add(new ModelFood(restaurant_name, category, imgname,price,rid));
 
+
                         }
                         Log.d("sum outside loop", String.valueOf(sum));
                         price.setText("Price:₹ "+String.valueOf(sum));
 
                         final OrderAdapter orderAdapter = new OrderAdapter(OrderCart.this, foodList);
                         recyclerView.setAdapter(orderAdapter);
+                        mShimmerViewContainer.stopShimmer();
+                        mShimmerViewContainer.setVisibility(View.GONE);
 
                         orderAdapter.setOnItemClickListener(new OrderAdapter.OnItemClickListener() {
                             public void onItemClick(int position) {
@@ -399,6 +477,11 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
                                 int a = sendData(item.getRestaurant_name(), item.getCategory(), item.getImgname(), item.getRid(),item.getPrice(), sum);
                                 sum = a;
                                 foodList.remove(position);
+
+                                if(foodList.isEmpty()){
+                                    flag = 0;
+                                }
+                                error();
                                 orderAdapter.notifyItemRemoved(position);
                                 Toast.makeText(OrderCart.this, "Removed successfully", Toast.LENGTH_SHORT).show();
                             }
@@ -408,6 +491,7 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
                         e.printStackTrace();
                     }
                 }
+
             }
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -415,6 +499,8 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
             }
 
         });
+
+    //error();
     }
     //end of getUrls/////////////////////////////////////////////////////////////
 
@@ -457,6 +543,8 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
             }
 
         });
+
+
         return sum1;
     }
 
@@ -490,7 +578,6 @@ public class OrderCart extends AppCompatActivity implements ExampleDialog.Exampl
             }
 
         });
-
 
 
     }

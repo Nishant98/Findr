@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
         email_session = user.get(sessionManager.EMAIL);
         del = ip.getIp();
 
-        array.add(new Data("Guddu ka Dhaaba", "apple pie", "apple pie_68383.jpg", "50", "Lorem ipsum dolor sit amet, consectetur adipiscing elit,","1"));
+        array.add(new Data("Guddu ka Dhaaba", "apple pie", "apple pie_68383.jpg", "50", "Lorem ipsum dolor sit amet, consectetur adipiscing elit,","1",null));
 
         getUrls(email_session);
 
@@ -283,7 +283,7 @@ public class HomeFragment extends Fragment {
 //                        Log.d("get url desc ",description);
 
 
-                        array.add(new Data(restaurant_name,category,imgname,price,description,rid));
+                        array.add(new Data(restaurant_name,category,imgname,price,description,rid,null));
                         Log.d("array",""+array);
                         myAppAdapter = new MyAppAdapter(array, getActivity());
                         flingContainer.setAdapter(myAppAdapter);
@@ -358,7 +358,7 @@ public class HomeFragment extends Fragment {
             public void onSuccessResponse(String result) {
                 //System.out.print("Bool" + result);
                 if (result.equals("1")) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Inserted into WishList", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity().getApplicationContext(), "Inserted into WishList", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 }

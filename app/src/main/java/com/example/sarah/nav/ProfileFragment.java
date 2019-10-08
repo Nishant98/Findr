@@ -35,6 +35,12 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+//        startActivity(intent);
+//    }
 }
 //        btnRegister = view.findViewById(R.id.registerButton);
 //        btnLogin.setOnClickListener(new View.OnClickListener() {
